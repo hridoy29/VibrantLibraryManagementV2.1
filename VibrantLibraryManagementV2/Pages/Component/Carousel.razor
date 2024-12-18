@@ -4,8 +4,8 @@
     <SfCarousel AutoPlay="false" ShowIndicators="false">
         <CarouselItem>
             <div class="first">
-                <div class="second">
-                    <h4 class="recomendation-text">Vibrant Recommended</h4>
+                <div class="second" style="background: radial-gradient(circle at right top, transparent 40%, rgb(255 255 255)), linear-gradient(to top, rgb(255 255 255), transparent), url(@backgroundImage);">
+                    <h4 class="recomendation-text">Vibrant Recommended 1212131</h4>
                     <figure class="img-container">
                         <div class="left-image-cu">
                             <img src=".././images/lord-of-the-rings-book-cover.jpg" alt="Golden Gate Bridge, San Francisco" style="height:100%;width:100%; border-radius: 20px;" />
@@ -25,7 +25,7 @@
                                 </div>
                                 <div>
                                     <h6>Ratings</h6>
-                                    <SfRating Value="3"></SfRating>
+                                    <SfRating Value="3" ReadOnly></SfRating>
                                     <div>
                                         <img src=".././icons/share.png" class="icon" />&nbsp; Share &nbsp;
                                         <img src=".././icons/heart.png" class="icon" /> &nbsp; Intersted
@@ -39,7 +39,7 @@
         </CarouselItem>
         <CarouselItem>
             <div class="first">
-                <div class="second">
+                <div class="second" style="background: radial-gradient(circle at right top, transparent 40%, rgb(255 255 255)), linear-gradient(to top, rgb(255 255 255), transparent), url(@backgroundImage1);">
                     <h4 class="recomendation-text">Vibrant Recommended</h4>
                     <figure class="img-container">
                         <div class="left-image-cu">
@@ -58,7 +58,7 @@
                                 </div>
                                 <div>
                                     <h6>Ratings</h6>
-                                    <SfRating Value="3"></SfRating>
+                                    <SfRating Value="3" ReadOnly></SfRating>
                                     <div>
                                         <img src=".././icons/share.png" class="icon" />&nbsp; Share &nbsp;
                                         <img src=".././icons/heart.png" class="icon" /> &nbsp; Intersted
@@ -72,13 +72,16 @@
         </CarouselItem>
     </SfCarousel>
 </div>
+@code{
+    public string backgroundImage { get; set; } = "images/harry-potter-free.jpg";
+    public string backgroundImage1 { get; set; } = "images/harry-potter-book-cover.jpg";
+}
 
 <style>
     .control-container {
         background-color: #e5e5e5;
         margin: 0 auto;
-        max-width: 768px;
-        width: 100%;
+        width: 98vw;
         box-sizing: border-box;
         height: 430px;
     }
@@ -111,22 +114,17 @@
     }
 
     .second {
-        width: 768px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        content: "";
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        width: 100vw;
+        min-height: 100%;
+        
     }
-
-        .second::before {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            content: "";
-            background: url(.././images/harry-potter-free.jpg);
-            background-repeat: no-repeat;
-            background-size: cover;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: .2;
-        }
+        
 
     .recomendation-text {
         font-family: "Roboto", sans-serif;

@@ -1,4 +1,8 @@
-﻿<div class="navbar-custom">
+﻿@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@using VibrantLibraryManagementV2.HelperServices
+@inject CustomAuthenticationStateProvider _customAuthProviders
+<div class="navbar-custom">
     <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
     <ul style="display: flex; flex-direction: row; gap: 10px; list-style: none; align-items: center; padding: 0px; margin: 0px;">
         <li>Home</li>
@@ -7,6 +11,7 @@
         <li>
             <ChooseLanguage />
         </li>
+        <li><SfButton OnClick="LogOut">Log Out</SfButton></li>
     </ul>
 </div>
 
@@ -28,6 +33,11 @@
     new Games() { ID= "Game9", Text= "Snooker" },
     new Games() { ID= "Game10", Text= "Tennis"},
   };
+    private async Task LogOut()
+    {
+        await _customAuthProviders.LogoutAsync();
+        _navigate.NavigateTo("/login");
+    }
 }
 
 <style>

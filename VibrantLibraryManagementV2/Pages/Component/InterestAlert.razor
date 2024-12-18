@@ -53,8 +53,8 @@
     </div>
     <div>
         <div>
-            <div style="max-width: 768px;" class="carousel-sample">
-                <SfCarousel CssClass="partial-carousel" AutoPlay="false" PartialVisible="true" ShowIndicators="false">
+            <div style="max-width: 80vw;" class="carousel-sample">
+                @* <SfCarousel  AutoPlay="false" ShowIndicators="false">
                     @foreach (var item in CarouselItems)
                     {
                         <CarouselItem Style="color: red; width: 160px;">
@@ -70,6 +70,22 @@
                                     </span>
                                 </div>
                             </figure>
+                        </CarouselItem>
+                    }
+                </SfCarousel> *@
+                <SfCarousel CssClass="db-carousel" ButtonsVisibility="CarouselButtonVisibility.Visible" AnimationEffect="CarouselAnimationEffect.Fade" AutoPlay="false">
+                    @foreach (var item in CarouselItemsss)
+                    {
+                        <CarouselItem>
+                            <div class="book-container" style="text-align: center; margin: 10px;">
+                                <img src="@item.ImageUrl" alt="@item.Title" style="height: 250px; width: 180px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);" />
+                                <h5 style="margin: 10px 0 5px; font-size: 1.1rem; color: #333;">@item.Title</h5>
+                                <p style="margin: 0; color: #888; font-size: 0.9rem;">by @item.Author</p>
+                                <div style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                                    <SfRating Value="@item.Rating" ReadOnly="true" CssClass="rating-stars"></SfRating>
+                                    <span style="margin-left: 5px; font-size: 0.9rem; color: #555;">@item.Rating/5</span>
+                                </div>
+                            </div>
                         </CarouselItem>
                     }
                 </SfCarousel>
@@ -97,5 +113,28 @@
         public string Image { get; set; }
         public string Caption { get; set; }
         public string AltText { get; set; }
+    }
+
+
+    private List<BookModel> CarouselItemsss { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CarouselItemsss = new List<BookModel>
+        {
+            new BookModel { ImageUrl = "images/harry-potter-free.jpg", Title = "The Power of Myth", Author = "Joseph Campbell", Rating = 4.8 },
+            new BookModel { ImageUrl = "images/harry-potter-free.jpg", Title = "Norse Mythology", Author = "Neil Gaiman", Rating = 4.4 },
+            new BookModel { ImageUrl = "images/harry-potter-free.jpg", Title = "The Odyssey", Author = "Homer", Rating = 4.6 },
+            new BookModel { ImageUrl = "images/harry-potter-free.jpg", Title = "The Song of Achilles", Author = "Madeline Miller", Rating = 4.2 },
+            new BookModel { ImageUrl = "images/harry-potter-free.jpg", Title = "The Prose Edda", Author = "Snorri Sturluson", Rating = 4.0 }
+        };
+    }
+
+    public class BookModel
+    {
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public double Rating { get; set; }
     }
 }
