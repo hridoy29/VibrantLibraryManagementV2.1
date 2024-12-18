@@ -11,6 +11,7 @@
 @inject CustomAuthenticationStateProvider customAuthenticationStateProvider
 @inject IStringLocalizer<App> localizer
 @inject ISessionService _sessionService
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Login</PageTitle>
 
@@ -18,11 +19,7 @@
     <link rel="stylesheet" href="css/login.css" />
 </head>
 @{
-    if (IsLoading)
-    {
-        <p>Loading</p>
-    }
-    else
+    if(!IsLoading) 
     {
         <div class="w-100 custom-div-width">
             <div class="row p-0">
@@ -60,7 +57,7 @@
                                         <div class="remember-me">
                                             <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
                                         </div>
-                                        <SfButton CssClass="custom-button e-primary login-button"
+                                        <SfButton CssClass="  e-primary custom-button login-button"
                                                   style="@LoginButtonStyle"
                                                   class="w-100"
                                                   Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
@@ -109,6 +106,12 @@
             </SfToast>
         </div>
     }
+    else
+    {
+        <div  style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <span>Loading...</span>
+        </div>
+    }
 }
 
 
@@ -124,7 +127,7 @@
 
     private bool isChecked = false;
     private bool isButtonDisabled = true;
-    public string LoginButtonStyle => $"border-radius: 10px;margin-bottom: 10px;{(isButtonDisabled ? "background: gray;" : "background: #30cc7d;")}";
+    public string LoginButtonStyle => $"border-radius: 10px;margin-bottom: 10px;{(isButtonDisabled ? "background-color: gray !important;" : "background-color: #30cc7d !important;")}";
     public bool IsLoading { get; set; }
 
     private void OnEmailChanged()
@@ -167,7 +170,7 @@
                 {
                     await _sessionService.Set<LoginEntity>("UserDetails", loginEntity);
                 }
-                Navigation.NavigateTo("/dashboard", true);
+                Navigation.NavigateTo("/home", true);
             }
             else
             {
@@ -185,7 +188,6 @@
     public async Task StoreToken(LoginResponse authResponse)
     {
         await customAuthenticationStateProvider.SetAuthenticationStateAsync(authResponse.AccessToken);
-
     }
 
     public async Task AddIcons()
@@ -193,7 +195,6 @@
         await this.TextBoxEmailObj.AddIconAsync("prepend", "e-icons");
 
     }
-
 
     public async Task AddIconsForPasswrd()
     {
@@ -228,11 +229,11 @@
         await _sessionService.Set("VibrantRememberMe", isChecked);
     }
 
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            await Task.Delay(300);
             IsLoading = false;
             StateHasChanged();
         }
@@ -240,3 +241,4 @@
     }
 
 }
+

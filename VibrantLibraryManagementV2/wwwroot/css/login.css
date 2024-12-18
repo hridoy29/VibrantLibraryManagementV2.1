@@ -91,12 +91,16 @@
     padding: 10px;
     border-radius: 10px
 }
+.e-primary {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
 
 .custom-button-gray {
     background-color: gray !important;
     color: black !important;
     padding: 10px;
-    border-radius: 10px
+    border-radius: 10px;
 }
 
 .custom-p {
@@ -226,3 +230,6 @@
     content: "\e763";
     font-size: 20px;
 }
+/*button.e-control.e-btn.e-lib.e-primary {
+    display: none;
+}*/

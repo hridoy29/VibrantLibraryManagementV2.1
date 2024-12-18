@@ -24,7 +24,7 @@
                 var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
                 if (authState.User.Identity.IsAuthenticated)
                 {
-                    _navigate.NavigateTo("/dashboard");
+                    _navigate.NavigateTo("/home");
                 }
                 else
                 {
@@ -65,7 +65,7 @@
         {
             var res = await LoginService.Login(obj);
             await StoreToken(res);
-            _navigate.NavigateTo("/dashboard");
+            _navigate.NavigateTo("/home");
         }
         else
         {

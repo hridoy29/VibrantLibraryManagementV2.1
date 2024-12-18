@@ -1,17 +1,15 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
 
 <PageTitle>VibrantLibraryManagementV2</PageTitle>
-
-<div class="page">
-   @*  <div class="sidebar">
-        <NavMenu />
-    </div> *@
-
-    <main>
-      @*   <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div> *@
+<div id="loading-spinner" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+    <span>Loading...</span>
+</div>
+<div class="page" id="app-wrapper">
+    <main >
         @Body
-        
     </main>
 </div>
+
+@code {
+}
