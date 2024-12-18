@@ -1,0 +1,36 @@
+﻿@page "/"
+@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject ISessionService _sessionService
+
+<PageTitle>VibrantLibraryManagement</PageTitle>
+
+<h1>Loading...</h1>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var isRememberMeOn = await _sessionService.Get<bool>("VibrantRememberMe");
+            if (isRememberMeOn)
+            {
+                var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+                if (!authState.User.Identity.IsAuthenticated)
+                {
+                     await _sessionService.Remove("authToken");
+                    _navigate.NavigateTo("/login");
+                }
+                else
+                {
+                    _navigate.NavigateTo("/dashboard");
+                }
+            }
+            else
+            {
+                await _sessionService.Remove("authToken");
+                _navigate.NavigateTo("/login");
+            }
+        }
+    }
+}
