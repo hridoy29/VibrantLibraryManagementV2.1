@@ -1,0 +1,39 @@
+﻿@page "/home"
+@* @rendermode InteractiveServer *@
+@using Component
+@using Syncfusion.Blazor.Navigations
+
+<PageTitle>Home</PageTitle>
+
+<div class="main-container">
+
+    <header class="header">
+        <Navbar />
+        <Search />
+    </header>
+
+    <Carousel />
+
+    <div style="width: 100%; border-bottom: 1px solid lightgray;"></div>
+
+    <div style="padding: 40px 100px;">
+        @* <InterestAlert /> *@
+    </div>
+
+    <div style="width: 100%; border-bottom: 1px solid lightgray; height: 20dvh;"></div>
+
+</div>
+
+<style>
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        background: rgb(245, 249, 245);
+    }
+
+    .header {
+        margin: 0px auto;
+        width: 100%;
+        border-bottom: 1px solid lightgray;
+    }
+</style>

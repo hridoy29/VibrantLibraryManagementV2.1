@@ -2,12 +2,10 @@
     <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
     <ul style="display: flex; flex-direction: row; gap: 10px; list-style: none; align-items: center; padding: 0px; margin: 0px;">
         <li>Home</li>
-        <li>About Us</li>
-        <li>Contact Us</li>
+        <li>Interest</li>
+        <li>Topics</li>
         <li>
-            <SfDropDownList TValue="string" TItem="Games" Placeholder="Us-en" DataSource="@LocalData">
-                <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
-            </SfDropDownList>
+            <ChooseLanguage />
         </li>
     </ul>
 </div>
@@ -40,8 +38,9 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 0px;
-        padding: 20px 120px;
+        padding: 20px 100px;
         border-bottom: .5px solid rgba(0, 0, 0, .2);
+        gap: 10px;
     }
 
     .logo {
@@ -49,7 +48,7 @@
         padding: 0px;
     }
 
-    @@media only screen and (max-width: 760px){
+    @@media only screen and (max-width: 760px) {
         .navbar-custom {
             flex-direction: column;
         }

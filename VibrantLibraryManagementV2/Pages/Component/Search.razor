@@ -1,44 +1,158 @@
-﻿<div class="search-library-catelog">
-    <h3>Search Library Catalogue</h3>
-    <div class="search-library-form">
-        <SfTab>
-            <TabItems>
-                <TabItem Content="Twitter is an online social networking service that enables users to send and read short 140-charactermessages called tweets.Registered users can read and post tweets, but those who are unregistered can only readthem.Users access Twitter through the website interface, SMS or mobile device app Twitter Inc. is based in SanFrancisco and has more than 25 offices around the world.Twitter was created in March 2006 by Jack Dorsey,Evan Williams, Biz Stone, and Noah Glass and launched in July 2006. The service rapidly gained worldwide popularity,with more than 100 million users posting 340 million tweets a day in 2012.The service also handled 1.6 billionsearch queries per day.">
-                    <ChildContent>
-                        <TabHeader Text="Basic Search"></TabHeader>
-                    </ChildContent>
-                </TabItem>
-                <TabItem Content="Facebook is an online social networking service headquartered in Menlo Park, California. Its website waslaunched on February 4, 2004, by Mark Zuckerberg with his Harvard College roommates and fellow students EduardoSaverin, Andrew McCollum, Dustin Moskovitz and Chris Hughes.">
-                    <ChildContent>
-                        <TabHeader Text="Advanced Search"></TabHeader>
-                    </ChildContent>
-                </TabItem>
-                <TabItem Content="WhatsApp Messenger is a proprietary cross-platform instant messaging client for smartphones that operatesunder a subscription business model.It uses the Internet to send text messages, images, video, user location andaudio media messages to other users using standard cellular mobile numbers. As of February 2016, WhatsApp had a userbase of up to one billion,[10] making it the most globally popular messaging application.WhatsApp Inc., based inMountain View, California, was acquired by Facebook Inc.on February 19, 2014, for approximately US$19.3 billion.">
-                    <ChildContent>
-                        <TabHeader Text="Browse"></TabHeader>
-                    </ChildContent>
-                </TabItem>
-            </TabItems>
-        </SfTab>
-        <SfButton>Search</SfButton>
-    </div>
-</div>
-
-<style>
+﻿<style>
     .search-library-catelog {
         width: 100%;
         /* margin: 30px 0px; */
-        padding: 20px 120px;
+        padding: 20px 100px;
+        padding-bottom: 50px;
     }
 
-
     .search-library-form {
-        height: 200px;
         width: 100%;
         background-color: white;
         border-radius: 10px;
         padding: 20px;
         margin-top: 20px;
-        box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        box-shadow: rgba(17, 12, 46, 0.15) 0px 8px 10px 0px;
+    }
+
+    #input-container-custom {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 20px 0px;
+        width: 70%;
+    }
+
+        .search-input input {
+            border: 1px solid #f3f3f3;
+            border-radius: 30px;
+            padding: 10px;
+            background: #d3d3d30a;
+            width: 100%;
+        }
+
+    .search-dropdown {
+        width: 25%;
+        border: 1px solid #f3f3f3;
+        border-radius: 30px;
+        background: #d3d3d30a;
+        padding: 5px 20px;
+    }
+
+    .email .e-input-group.e-control-wrapper .e-input-group-icon {
+        content: "";
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        width: 16px !important;
+        height: 16px !important;
+        display: inline-block !important;
+        margin-right: 15px;
+        background: rgba(3, 5, 3, .5);
+    }
+
+    .search-icon {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 11px;
+        left: 10px;
+    }
+
+    .slc-search-button {
+        background: #857e7e3d;
+        padding: 8px 33px;
+        border-radius: 20px;
+        color: gray;
+        box-sizing: border-box;
     }
 </style>
+
+<div class="search-library-catelog">
+    <h3>Search Library Catalogue</h3>
+    <div class="search-library-form">
+        <SfTab LoadOn="ContentLoad.Dynamic">
+            <TabItems>
+                <TabItem>
+                    <HeaderTemplate>Basic Search</HeaderTemplate>
+                    <ContentTemplate>
+                        <div class='wrapper-cs'>
+
+                            <div id="input-container-custom">
+
+                                <div class="search-input">
+                                    <div style="position: relative;">
+                                        <input type="text"
+                                               placeholder="Search" style="padding-left: 35px;" />
+                                        <img src="/icons/search.png" class="search-icon" />
+                                    </div>
+                                </div>
+
+                                <div class="search-dropdown">
+                                    <SfDropDownList TValue="string"
+                                                    TItem="Games"
+                                                    Placeholder="Keyword"
+                                                    DataSource="@LocalData">
+                                        <DropDownListFieldSettings Value="ID"
+                                                                   Text="Text"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+
+                            </div>
+
+                            <div class="button-container">
+                                <SfButton CssClass="slc-search-button">Search</SfButton>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+
+                </TabItem>
+
+                <TabItem>
+                    <HeaderTemplate>Advanced Search</HeaderTemplate>
+                    <ContentTemplate>
+
+                    </ContentTemplate>
+                </TabItem>
+
+                <TabItem>
+                    <HeaderTemplate>Browse</HeaderTemplate>
+                    <ContentTemplate>
+
+                    </ContentTemplate>
+                </TabItem>
+            </TabItems>
+        </SfTab>
+    </div>
+</div>
+
+@code {
+    SfTextBox TextBoxEmailObj;
+
+    public async Task AddIcons()
+    {
+        await this.TextBoxEmailObj.AddIconAsync("prepend", "e-icons");
+    }
+
+    public class Games
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    List<Games> LocalData = new List<Games> {
+    new Games() { ID= "Game1", Text= "American Football" },
+    new Games() { ID= "Game2", Text= "Badminton" },
+    new Games() { ID= "Game3", Text= "Basketball" },
+    new Games() { ID= "Game4", Text= "Cricket" },
+    new Games() { ID= "Game5", Text= "Football" },
+    new Games() { ID= "Game6", Text= "Golf" },
+    new Games() { ID= "Game7", Text= "Hockey" },
+    new Games() { ID= "Game8", Text= "Rugby"},
+    new Games() { ID= "Game9", Text= "Snooker" },
+    new Games() { ID= "Game10", Text= "Tennis"},
+  };
+}

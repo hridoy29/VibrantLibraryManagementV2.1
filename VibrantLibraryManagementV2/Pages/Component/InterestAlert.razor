@@ -1,109 +1,101 @@
-﻿<div class="interest-main-container">
-    <div class="title">
-        <h3>InterestAlert</h3>
-        <p>See all</p>
-    </div>
-    <div>
-        <SfCarousel SfCarousel Width="100%" ShowNavigation="true" ShowIndicators="false" ScrollItem="1"
-                    ItemsPerView="5" NavigationButtonsPosition="Bottom">
-            <CarouselItem>
-                <div style="display: flex; flex-direction: row; gap: 100px;">
-                    <div class="item-container-mini">
-                        <img src=".././images/harry-potter-book-cover.jpg" class="slider-image-mini" />
-                        <h3>Harry Potter</h3>
-                        <p>by J.K Rowling</p>
-                        <span style="display: flex; flex-direction: row; align-items: center;">
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            &nbsp; 5/5
-                        </span>
-                    </div>
-                    <div class="item-container-mini">
-                        <img src=".././images/lord-of-the-rings-book-cover.jpg" class="slider-image-mini" />
-                        <h3>The Lord of the Rings</h3>
-                        <p>by J.R.R. Tolkien</p>
-                        <span style="display: flex; flex-direction: row; align-items: center;">
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            &nbsp; 5/5
-                        </span>
-                    </div>
-                    <div class="item-container-mini">
-                        <img src=".././images/harry-potter-book-cover.jpg" class="slider-image-mini" />
-                        <h3>Harry Potter</h3>
-                        <p>by J.K Rowling</p>
-                        <span style="display: flex; flex-direction: row; align-items: center;">
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            &nbsp; 5/5
-                        </span>
-                    </div>
-                    <div class="item-container-mini">
-                        <img src=".././images/lord-of-the-rings-book-cover.jpg" class="slider-image-mini" />
-                        <h3>The Lord of the Rings</h3>
-                        <p>by J.R.R. Tolkien</p>
-                        <span style="display: flex; flex-direction: row; align-items: center;">
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            &nbsp; 5/5
-                        </span>
-                    </div>
-                    <div class="item-container-mini">
-                        <img src=".././images/harry-potter-book-cover.jpg" class="slider-image-mini" />
-                        <h3>Harry Potter</h3>
-                        <p>by J.K Rowling</p>
-                        <span style="display: flex; flex-direction: row; align-items: center;">
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            <img src=".././icons/star.png" class="star" />
-                            &nbsp; 5/5
-                        </span>
-                    </div>
-                </div>
-            </CarouselItem>
-        </SfCarousel>
-    </div>
-</div>
+﻿@using Syncfusion.Blazor.Navigations
+@inject NavigationManager UriHelper
 
 <style>
-    .interest-main-container {
-        padding: 0px 70px 0px;
+    .partial-carousel-section .carousel-sample {
+        max-width: 700px;
+        height: 300px;
     }
 
+    .partial-carousel .e-carousel-items .e-carousel-item .img-container {
+        margin: 0 10px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .partial-carousel .e-carousel-items .e-carousel-item .img-caption {
+        bottom: 4em;
+        color: #fff;
+        font-size: 12pt;
+        height: 2em;
+        position: relative;
+        padding: 0.3em 1em;
+        text-align: center;
+        width: 100%;
+    }
+
+    @@media screen and (max-width: 480px) {
+        .partial-carousel-section .carousel-sample {
+            height: 150px;
+            margin-top: 80px;
+        }
+
+        .partial-carousel .e-carousel-items .e-carousel-item .img-caption {
+            position: absolute;
+            top: 0;
+            font-size: 12px;
+            text-align: left;
+        }
+    }
+
+    /* custom styles */
     .title {
         display: flex;
         justify-content: space-between;
-    }
-
-    .item-container-mini {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 150px;
-    }
-
-    .slider-image-mini {
-        width: 150px;
-        height: 200px;
-        border-radius: 10px;
-    }
-
-    .carousel2 {
-        width: 95%;
-        margin: 0px auto;
+        font-family: roboto;
     }
 </style>
+
+<div class="control-section partial-carousel-section">
+    <div class="title">
+        <h3>Interest alert</h3>
+        <p>View all</p>
+    </div>
+    <div>
+        <div>
+            <div style="max-width: 768px;" class="carousel-sample">
+                <SfCarousel CssClass="partial-carousel" AutoPlay="false" PartialVisible="true" ShowIndicators="false">
+                    @foreach (var item in CarouselItems)
+                    {
+                        <CarouselItem Style="color: red; width: 160px;">
+                            <figure class="img-container" style="width: 150px; height:300px;">
+                                <img src=".././images/harry-potter-book-cover.jpg" alt="@item.AltText" style="height: 200px; width: 125px; border-radius: 10px;" />
+                                <div class="detail-container-ms">
+                                    <h6>Harry Potter</h6>
+                                    <p>by J.K Rowling</p>
+                                    <span style="display: flex; flex-direction: row; align-items: center;">
+
+                                        <SfRating Value="3"></SfRating>
+                                        &nbsp; 5/5
+                                    </span>
+                                </div>
+                            </figure>
+                        </CarouselItem>
+                    }
+                </SfCarousel>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>()
+    {
+        new CarouselItemModel { Image = "bridge", AltText = "Golden Gate Bridge, San Francisco", Caption = "Golden Gate Bridge, San Francisco" },
+        new CarouselItemModel { Image = "trees", AltText = "Spring Flower Trees", Caption = "Spring Flower Trees" },
+        new CarouselItemModel { Image = "waterfall", AltText = "Oddadalen Waterfalls, Norway", Caption = "Oddadalen Waterfalls, Norway" },
+        new CarouselItemModel { Image = "sea", AltText = "Anse Source d`Argent, Seychelles", Caption = "Anse Source d`Argent, Seychelles" },
+        new CarouselItemModel { Image = "rocks", AltText = "Stonehenge, England", Caption = "Stonehenge, England" },
+        new CarouselItemModel { Image = "bridge", AltText = "Golden Gate Bridge, San Francisco", Caption = "Golden Gate Bridge, San Francisco" },
+        new CarouselItemModel { Image = "trees", AltText = "Spring Flower Trees", Caption = "Spring Flower Trees" },
+        new CarouselItemModel { Image = "waterfall", AltText = "Oddadalen Waterfalls, Norway", Caption = "Oddadalen Waterfalls, Norway" },
+        new CarouselItemModel { Image = "sea", AltText = "Anse Source d`Argent, Seychelles", Caption = "Anse Source d`Argent, Seychelles" },
+        new CarouselItemModel { Image = "rocks", AltText = "Stonehenge, England", Caption = "Stonehenge, England" }
+    };
+    public class CarouselItemModel
+    {
+        public string Image { get; set; }
+        public string Caption { get; set; }
+        public string AltText { get; set; }
+    }
+}
