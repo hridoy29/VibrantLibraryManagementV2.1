@@ -46,6 +46,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseUrl)
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 
+builder.Services.AddScoped<TokenService>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

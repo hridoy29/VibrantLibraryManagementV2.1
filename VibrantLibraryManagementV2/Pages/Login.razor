@@ -17,91 +17,100 @@
 <head>
     <link rel="stylesheet" href="css/login.css" />
 </head>
+@{
+    if (IsLoading)
+    {
+        <p>Loading</p>
+    }
+    else
+    {
+        <div class="w-100 custom-div-width">
+            <div class="row p-0">
+                <div class="col-12 col-md-4 left-column">
+                    <div class="container custom-container">
+                        <div class="col-12 logo-image">
+                            <img src="/images/vibrantlogobgremove.png" class="img-fluid" />
 
-<div class="w-100 custom-div-width">
-    <div class="row p-0">
-        <div class="col-12 col-md-4 left-column">
-            <div class="container custom-container">
-                <div class="col-12 logo-image">
-                    <img src="/images/vibrantlogobgremove.png" class="img-fluid" />
+                        </div>
+                        <div class="col-12 login-text">
+                            <h4 style="margin:17px 0px 0px 0px; font-family: roboto;">@localizer["Log in"]</h4>
+                        </div>
 
-                </div>
-                <div class="col-12 login-text">
-                    <h4 style="margin:17px 0px 0px 0px; font-family: roboto;">@localizer["Log in"]</h4>
-                </div>
+                        <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
+                            <FormValidator>
+                                <DataAnnotationsValidator></DataAnnotationsValidator>
+                            </FormValidator>
+                            <FormItems>
+                                <FormItem Field="@nameof(loginEntity.Email)">
+                                    <Template>
+                                        <div class="email">
+                                            <SfTextBox CssClass="custom-textbox" @ref="@TextBoxEmailObj" @bind-Value="loginEntity.Email" Type="InputType.Email" Placeholder="@localizer["Email address"]" Created="@AddIcons" OnChange="OnEmailChanged"></SfTextBox>
+                                        </div>
+                                    </Template>
+                                </FormItem>
+                                <FormItem Field="@nameof(loginEntity.Password)">
+                                    <Template>
+                                        <div class="password">
+                                            <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="TextBoxType" Placeholder="@localizer["Password"]" Created="@AddIconsForPasswrd" OnChange="OnPasswordChanged"></SfTextBox>
+                                        </div>
+                                    </Template>
+                                </FormItem>
+                                <FormButtons>
+                                    <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
+                                        <div class="remember-me">
+                                            <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
+                                        </div>
+                                        <SfButton CssClass="custom-button e-primary login-button"
+                                                  style="@LoginButtonStyle"
+                                                  class="w-100"
+                                                  Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
+                                    </div>
+                                </FormButtons>
+                            </FormItems>
+                        </SfDataForm>
 
-                <SfDataForm ID="LoginForm" Model="loginEntity" OnValidSubmit="Submit">
-                    <FormValidator>
-                        <DataAnnotationsValidator></DataAnnotationsValidator>
-                    </FormValidator>
-                    <FormItems>
-                        <FormItem Field="@nameof(loginEntity.Email)">
-                            <Template>
-                                <div class="email">
-                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxEmailObj" @bind-Value="loginEntity.Email" Type="InputType.Email" Placeholder="@localizer["Email address"]" Created="@AddIcons" OnChange="OnEmailChanged"></SfTextBox>
-                                </div>
-                            </Template>
-                        </FormItem>
-                        <FormItem Field="@nameof(loginEntity.Password)">
-                            <Template>
-                                <div class="password">
-                                    <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="TextBoxType" Placeholder="@localizer["Password"]" Created="@AddIconsForPasswrd" OnChange="OnPasswordChanged"></SfTextBox>
-                                </div>
-                            </Template>
-                        </FormItem>
-                        <FormButtons>
-                            <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
-                                <div class="remember-me">
-                                    <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
-                                </div>
-                                <SfButton CssClass="custom-button e-primary login-button"
-                                          style="@LoginButtonStyle"
-                                          class="w-100"
-                                          Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
+                        <div class="col-12 mt-2">
+                            <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <Divider />
+                        </div>
+                        <div class="col-12 mt-2">
+                            <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left" @onclick="GoogleLogin">@localizer["continue with google"]</SfButton>
+                        </div>
+                        <div class="privacy-policy">
+                            <p style="margin-bottom: 0px;">
+                                <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
+                                <span style="text-decoration: underline;">@localizer["terms of service"]</span>
+                            </p>
+                            <div style="width: 100px;">
+                                <ChooseLanguage />
                             </div>
-                        </FormButtons>
-                    </FormItems>
-                </SfDataForm>
-
-                <div class="col-12 mt-2">
-                    <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
-                </div>
-                <div class="col-12 mt-2">
-                    <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
-                </div>
-                <div class="col-12 mt-2">
-                    <Divider />
-                </div>
-                <div class="col-12 mt-2">
-                    <SfButton CssClass="custom-google-button w-100" IsPrimary="true" IconCss="e-open-icon" IconPosition="@IconPosition.Left" @onclick="GoogleLogin">@localizer["continue with google"]</SfButton>
-                </div>
-                <div class="privacy-policy">
-                    <p style="margin-bottom: 0px;">
-                        <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
-                        <span style="text-decoration: underline;">@localizer["terms of service"]</span>
-                    </p>
-                    <div style="width: 100px;">
-                        <ChooseLanguage />
+                        </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-8 m-0 p-0 right-column">
+                    <img src="/images/bookstreehq.jpg" class="tree-img" />
+                </div>
             </div>
-        </div>
-        <div class="col-12 col-md-8 m-0 p-0 right-column">
-            <img src="/images/bookstreehq.jpg" class="tree-img" />
-        </div>
-    </div>
 
-</div>
+        </div>
 
-@* Toast Notification *@
-<div class="col-lg-12 control-section toast-default-section">
-    <SfToast ID="toast_default" @ref="ToastObj"
-             Title="Login Failed"
-             Content="Incorrect email or password"
-             Timeout="3000">
-        <ToastPosition X="Right"></ToastPosition>
-    </SfToast>
-</div>
+        @* Toast Notification *@
+        <div class="col-lg-12 control-section toast-default-section">
+            <SfToast ID="toast_default" @ref="ToastObj"
+                     Title="Login Failed"
+                     Content="Incorrect email or password"
+                     Timeout="3000">
+                <ToastPosition X="Right"></ToastPosition>
+            </SfToast>
+        </div>
+    }
+}
+
 
 @code {
     SfTextBox TextBoxEmailObj;
@@ -116,6 +125,7 @@
     private bool isChecked = false;
     private bool isButtonDisabled = true;
     public string LoginButtonStyle => $"border-radius: 10px;margin-bottom: 10px;{(isButtonDisabled ? "background: gray;" : "background: #30cc7d;")}";
+    public bool IsLoading { get; set; }
 
     private void OnEmailChanged()
     {
@@ -138,7 +148,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        IsLoading = true;
         loginEntity = new LoginEntity();
+        StateHasChanged();
     }
 
     private async Task Submit()
@@ -150,6 +162,11 @@
             if (result is not null && result.Status == 200)
             {
                 await StoreToken(result);
+                await _sessionService.Remove("UserDetails");
+                if (isChecked)
+                {
+                    await _sessionService.Set<LoginEntity>("UserDetails", loginEntity);
+                }
                 Navigation.NavigateTo("/dashboard", true);
             }
             else
@@ -211,5 +228,15 @@
         await _sessionService.Set("VibrantRememberMe", isChecked);
     }
 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+       
+    }
 
 }

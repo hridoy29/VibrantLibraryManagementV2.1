@@ -2,6 +2,9 @@
 @inject NavigationManager _navigate
 @inject AuthenticationStateProvider _authenticationStateProvider
 @inject ISessionService _sessionService
+@inject TokenService _tokenService
+@inject ILoginService LoginService;
+@inject CustomAuthenticationStateProvider customAuthenticationStateProvider
 
 <PageTitle>VibrantLibraryManagement</PageTitle>
 
@@ -12,25 +15,61 @@
     {
         if (firstRender)
         {
+
             var isRememberMeOn = await _sessionService.Get<bool>("VibrantRememberMe");
-            if (isRememberMeOn)
+            var token = await _sessionService.Get<string>("authToken");
+            if (!string.IsNullOrWhiteSpace(token))
             {
+                var isValid = _tokenService.IsTokenExpired(token);
                 var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
-                if (!authState.User.Identity.IsAuthenticated)
+                if (authState.User.Identity.IsAuthenticated)
                 {
-                     await _sessionService.Remove("authToken");
-                    _navigate.NavigateTo("/login");
+                    _navigate.NavigateTo("/dashboard");
                 }
                 else
                 {
-                    _navigate.NavigateTo("/dashboard");
+                    if (isRememberMeOn && isValid)
+                    {
+                        await PerformLogin();
+                    }
+                    else
+                    {
+                        await GoToLogin();
+                    }
                 }
             }
             else
             {
-                await _sessionService.Remove("authToken");
-                _navigate.NavigateTo("/login");
+                await GoToLogin();
             }
+
+        }
+    }
+    public async Task StoreToken(LoginResponse authResponse)
+    {
+        await customAuthenticationStateProvider.SetAuthenticationStateAsync(authResponse.AccessToken);
+
+    }
+
+    public async Task GoToLogin()
+    {
+        await _sessionService.Remove("authToken");
+        _navigate.NavigateTo("/login");
+
+    }
+
+    public async Task PerformLogin()
+    {
+        var obj = await _sessionService.Get<LoginEntity>("UserDetails");
+        if (obj is not null)
+        {
+            var res = await LoginService.Login(obj);
+            await StoreToken(res);
+            _navigate.NavigateTo("/dashboard");
+        }
+        else
+        {
+            await GoToLogin();
         }
     }
 }

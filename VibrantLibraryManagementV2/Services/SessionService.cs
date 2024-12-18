@@ -25,6 +25,10 @@ namespace VibrantLibraryManagementV2.Services
             {
                 return default(T);
             }
+            if (typeof(T)==typeof(string))
+            {
+                return (T)(object)json;
+            }
             return JsonSerializer.Deserialize<T>(json);
         }
 
