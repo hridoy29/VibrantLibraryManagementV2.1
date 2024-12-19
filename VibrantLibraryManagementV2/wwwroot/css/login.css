@@ -173,6 +173,16 @@
     background: none !important;
 }
 
+.logo-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-text {
+    text-align: center;
+}
+
 @media (max-width: 1200px) {
     .hide-on-mobile {
         display: none;
@@ -209,15 +219,7 @@
         width: 100%
     }
 
-    .logo-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .login-text {
-        text-align: center;
-    }
+    
 }
 
 /*Toast Notification*/
