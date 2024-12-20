@@ -7,6 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="Pages\Component\CustomFooter.razor" />
+	  <Content Remove="Pages\Component\Footer.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.34" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.36" />
@@ -19,6 +24,19 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\VibrantLibraryManagementV2.ServiceLayer\VibrantLibraryManagementV2.ServiceLayer.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Pages\Component\CustomFooter.razor" />
+	  <None Include="Pages\Component\Footer.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\Component\Footer.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\Component\Footer.razor" />
 	</ItemGroup>
 
 </Project>

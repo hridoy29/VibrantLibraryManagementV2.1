@@ -1,101 +1,248 @@
-﻿@using Syncfusion.Blazor.Navigations
-@inject NavigationManager UriHelper
+﻿@inject IJSRuntime JSRuntime
+
+<div class="interest-alert-title">
+    <h3>Interest alerts</h3>
+    <p style="margin: 0px;">View all</p>
+</div>
+
+<div class="interest-alerts-main-container">
+    <div class="blur-wrapper"></div>
+    <div class="carousel-interest-alerts" id="carouselContainer">
+        @foreach (var item in CarouselItems)
+        {
+            <div class="carousel-slide">
+                <BookCard BookName="@item.Caption" ImageUrl="@item.Image" AlternativeText="@item.AltText" />
+            </div>
+        }
+    </div>
+
+    <button class="prev" @onclick="MovePrev">❮</button>
+    <button class="next" @onclick="MoveNext">❯</button>
+</div>
 
 <style>
-    .partial-carousel-section .carousel-sample {
-        max-width: 700px;
-        height: 300px;
-    }
-
-    .partial-carousel .e-carousel-items .e-carousel-item .img-container {
-        margin: 0 10px;
-        width: 100%;
+    .blur-wrapper {
+        display:none;
+        position: absolute;
+        left: 100px;
+        top: 0px;
+        width: 47px;
         height: 100%;
+        z-index: 1;
+        background: linear-gradient(to right, rgb(255 255 255 / 11%) 13%, rgb(255 255 255 / 112%) 12%, rgb(255 255 255 / 15%) 87%), rgba(255, 255, 255, .7);
+        box-shadow: 18px 0 12px -2px rgb(255 255 255 / 74%);
     }
 
-    .partial-carousel .e-carousel-items .e-carousel-item .img-caption {
-        bottom: 4em;
-        color: #fff;
-        font-size: 12pt;
-        height: 2em;
-        position: relative;
-        padding: 0.3em 1em;
-        text-align: center;
-        width: 100%;
-    }
-
-    @@media screen and (max-width: 480px) {
-        .partial-carousel-section .carousel-sample {
-            height: 150px;
-            margin-top: 80px;
-        }
-
-        .partial-carousel .e-carousel-items .e-carousel-item .img-caption {
-            position: absolute;
-            top: 0;
-            font-size: 12px;
-            text-align: left;
-        }
-    }
-
-    /* custom styles */
-    .title {
+    .interest-alert-title {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         font-family: roboto;
+        padding: 30px 100px;
+    }
+
+    .interest-alerts-main-container {
+        height: 390px;
+        width: 97vw;
+        position: relative;
+        padding: 0px 110px;
+        box-sizing: border-box;
+    }
+
+    .carousel-interest-alerts {
+        height: 350px;
+        display: flex;
+        gap: 20px;
+        overflow: hidden;
+        scroll-behavior: smooth;
+    }
+
+    .carousel-slide {
+        width: 185px;
+        height: 190px;
+        flex-shrink: 0;
+    }
+
+    .carousel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .prev, .next {
+        position: absolute;
+        top: 35%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin: 10px 90px;
+        color: black;
+        font-weight: bold;
+        font-size: 2em;
+    }
+
+    .prev {
+        left: 0px;
+        z-index: 2;
+    }
+
+    .next {
+        right: -50px;
+        color: lightgray;
+    }
+
+    .interest-alert-book-name {
+        font-weight: bold;
+        padding: 10px 0px;
+        padding-bottom: 5px;
+        margin: 0px;
+        font-family: roboto;
+    }
+
+    .autor-interest-alert {
+        margin: 0px;
+        padding-bottom: 5px;
+        font-size: 12px;
+    }
+
+    .ratings-interest {
+        width: 100px;
+    }
+
+    .ratings img{
+        width: 12px;
+    }
+
+    .ratings-container{
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    @@media only screen and (max-width: 760px) {
+        .interest-alerts-main-container, .interest-alert-title {
+            padding: 20px;
+            width: 96vw;
+        }
+
+        .prev, .next {
+            margin: 5px 20px;
+        }
+
+        .blur-wrapper {
+            left: 10px;
+        }
     }
 </style>
 
-<div class="control-section partial-carousel-section">
-    <div class="title">
-        <h3>Interest alert</h3>
-        <p>View all</p>
-    </div>
-    <div>
-        <div>
-            <div style="max-width: 768px;" class="carousel-sample">
-                <SfCarousel CssClass="partial-carousel" AutoPlay="false" PartialVisible="true" ShowIndicators="false">
-                    @foreach (var item in CarouselItems)
-                    {
-                        <CarouselItem Style="color: red; width: 160px;">
-                            <figure class="img-container" style="width: 150px; height:300px;">
-                                <img src=".././images/harry-potter-book-cover.jpg" alt="@item.AltText" style="height: 200px; width: 125px; border-radius: 10px;" />
-                                <div class="detail-container-ms">
-                                    <h6>Harry Potter</h6>
-                                    <p>by J.K Rowling</p>
-                                    <span style="display: flex; flex-direction: row; align-items: center;">
-
-                                        <SfRating Value="3"></SfRating>
-                                        &nbsp; 5/5
-                                    </span>
-                                </div>
-                            </figure>
-                        </CarouselItem>
-                    }
-                </SfCarousel>
-            </div>
-        </div>
-    </div>
-</div>
-
 @code {
-    public List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>()
+    public List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>
     {
-        new CarouselItemModel { Image = "bridge", AltText = "Golden Gate Bridge, San Francisco", Caption = "Golden Gate Bridge, San Francisco" },
-        new CarouselItemModel { Image = "trees", AltText = "Spring Flower Trees", Caption = "Spring Flower Trees" },
-        new CarouselItemModel { Image = "waterfall", AltText = "Oddadalen Waterfalls, Norway", Caption = "Oddadalen Waterfalls, Norway" },
-        new CarouselItemModel { Image = "sea", AltText = "Anse Source d`Argent, Seychelles", Caption = "Anse Source d`Argent, Seychelles" },
-        new CarouselItemModel { Image = "rocks", AltText = "Stonehenge, England", Caption = "Stonehenge, England" },
-        new CarouselItemModel { Image = "bridge", AltText = "Golden Gate Bridge, San Francisco", Caption = "Golden Gate Bridge, San Francisco" },
-        new CarouselItemModel { Image = "trees", AltText = "Spring Flower Trees", Caption = "Spring Flower Trees" },
-        new CarouselItemModel { Image = "waterfall", AltText = "Oddadalen Waterfalls, Norway", Caption = "Oddadalen Waterfalls, Norway" },
-        new CarouselItemModel { Image = "sea", AltText = "Anse Source d`Argent, Seychelles", Caption = "Anse Source d`Argent, Seychelles" },
-        new CarouselItemModel { Image = "rocks", AltText = "Stonehenge, England", Caption = "Stonehenge, England" }
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
     };
+
     public class CarouselItemModel
     {
         public string Image { get; set; }
         public string Caption { get; set; }
         public string AltText { get; set; }
     }
+
+    private async Task MoveNext()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlide", 1);
+    }
+
+    private async Task MovePrev()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlide", -1);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeCarousel");
+        }
+    }
 }
+
+<script>
+    let isDragging = false;
+    let startX;
+    let scrollLeft;
+
+    window.initializeCarousel = function () {
+        var carousel = document.getElementById("carouselContainer");
+
+        // Touch event handlers for swiping
+        carousel.addEventListener("touchstart", function (e) {
+            isDragging = true;
+            startX = e.touches[0].pageX;
+            scrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener("touchmove", function (e) {
+            if (!isDragging) return;
+            let moveX = e.touches[0].pageX - startX;
+            carousel.scrollLeft = scrollLeft - moveX;
+        });
+
+        carousel.addEventListener("touchend", function () {
+            isDragging = false;
+        });
+
+        // Mouse event handlers for dragging (desktop)
+        carousel.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            startX = e.pageX;
+            scrollLeft = carousel.scrollLeft;
+        });
+
+        carousel.addEventListener("mousemove", function (e) {
+            if (!isDragging) return;
+            let moveX = e.pageX - startX;
+            carousel.scrollLeft = scrollLeft - moveX;
+        });
+
+        carousel.addEventListener("mouseup", function () {
+            isDragging = false;
+        });
+
+        // Prevent text selection while dragging
+        carousel.addEventListener("dragstart", function (e) {
+            e.preventDefault();
+        });
+    }
+
+    window.moveSlide = function (direction) {
+        var carousel = document.getElementById("carouselContainer");
+        carousel.scrollLeft += direction * 150;
+    }
+</script>

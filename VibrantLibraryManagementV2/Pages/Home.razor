@@ -12,22 +12,32 @@
 <div class="main-container">
 
     <header class="header">
-        <Navbar />
-        <Search />
+        <Navbar OnSearchBoxClicked="ToggleSearchSection" />
+        @if (showingSearchSection)
+        {
+            <Search/>
+        }
     </header>
 
     <Carousel />
 
-    <div style="width: 100%; border-bottom: 1px solid lightgray;"></div>
+    <InterestAlert />
+    <div style="width: 100%;">
 
-    <div style="padding: 40px 100px;">
-        @* <InterestAlert /> *@
+    <Interested />
+    </div>
+    <div style="width: 100%; background: white;padding-top: 3rem; ">
+        <ReadingHistory />
+    </div>
+    <div style="width: 100%; ">
+        <Foot/>
     </div>
 
-    <div style="width: 100%; border-bottom: 1px solid lightgray; height: 20dvh;"></div>
 
 </div>
-@code{
+@code {
+    public bool showingSearchSection { get; set; } = false;
+    [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -49,6 +59,12 @@
         await _customAuthProvider.LogoutAsync();
         _navigate.NavigateTo("/login");
     }
+
+    private void ToggleSearchSection()
+    {
+        showingSearchSection = !showingSearchSection;
+        StateHasChanged();
+    }
 }
 
 <style>
@@ -62,5 +78,6 @@
         margin: 0px auto;
         width: 100%;
         border-bottom: 1px solid lightgray;
+        background: white;
     }
 </style>

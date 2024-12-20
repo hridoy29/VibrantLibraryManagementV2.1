@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/login.css" />
 </head>
 @{
-    if(!IsLoading) 
+    if (!IsLoading)
     {
         <div class="w-100 custom-div-width">
             <div class="row p-0">
@@ -42,54 +42,66 @@
                                     <Template>
                                         <div class="email">
                                             <SfTextBox CssClass="custom-textbox" @ref="@TextBoxEmailObj" @bind-Value="loginEntity.Email" Type="InputType.Email" Placeholder="@localizer["Email address"]" Created="@AddIcons" OnChange="OnEmailChanged"></SfTextBox>
+                                            @{
+                                                    if (!IsValid)
+                                                    {
+                                                        <span class="error-text">@ResponseMessage</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </Template>
+                                    </FormItem>
+                                    <FormItem Field="@nameof(loginEntity.Password)">
+                                        <Template>
+                                            <div class="password">
+                                                <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="TextBoxType" Placeholder="@localizer["Password"]" Created="@AddIconsForPasswrd" OnChange="OnPasswordChanged"></SfTextBox>
+                                                @{
+                                                    if (!IsValid)
+                                                    {
+                                                        <span class="error-text">@ResponseMessage</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </Template>
+                                    </FormItem>
+                                    <FormButtons>
+                                        <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
+                                            <div class="remember-me">
+                                                <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
+                                            </div>
+                                            <SfButton CssClass="  e-primary custom-button login-button"
+                                                      style="@LoginButtonStyle"
+                                                      class="w-100"
+                                                      Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
                                         </div>
-                                    </Template>
-                                </FormItem>
-                                <FormItem Field="@nameof(loginEntity.Password)">
-                                    <Template>
-                                        <div class="password">
-                                            <SfTextBox CssClass="custom-textbox" @ref="@TextBoxPasswordObj" @bind-Value="loginEntity.Password" Type="TextBoxType" Placeholder="@localizer["Password"]" Created="@AddIconsForPasswrd" OnChange="OnPasswordChanged"></SfTextBox>
-                                        </div>
-                                    </Template>
-                                </FormItem>
-                                <FormButtons>
-                                    <div style="display: flex; flex-direction: column; width: 100%; gap: 20px;">
-                                        <div class="remember-me">
-                                            <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
-                                        </div>
-                                        <SfButton CssClass="  e-primary custom-button login-button"
-                                                  style="@LoginButtonStyle"
-                                                  class="w-100"
-                                                  Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
-                                    </div>
-                                </FormButtons>
-                            </FormItems>
-                        </SfDataForm>
+                                    </FormButtons>
+                                </FormItems>
+                            </SfDataForm>
 
-                        <div class="col-12 mt-2">
-                            <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
-                        </div>
-                        <div class="col-12 mt-2">
-                            <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
-                        </div>
-                        
-                        <div class="privacy-policy">
-                            <p style="margin-bottom: 0px;">
-                                <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
-                                <span style="text-decoration: underline;">@localizer["terms of service"]</span>
-                            </p>
-                            <div style="width: 100px;">
-                                <ChooseLanguage />
+                            <div class="col-12 mt-2">
+                                <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
+                            </div>
+
+                            <div class="privacy-policy">
+                                <p style="margin-bottom: 0px;">
+                                    <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
+                                    <span style="text-decoration: underline;">@localizer["terms of service"]</span>
+                                </p>
+                                <div style="width: 100px;">
+                                    <ChooseLanguage />
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 col-md-8 m-0 p-0 right-column">
+                        <img src="/images/bookstreehq.jpg" class="tree-img" />
+                    </div>
                 </div>
-                <div class="col-12 col-md-8 m-0 p-0 right-column">
-                    <img src="/images/bookstreehq.jpg" class="tree-img" />
-                </div>
-            </div>
 
-        </div>
+            </div>
 
         @* Toast Notification *@
         <div class="col-lg-12 control-section toast-default-section">
@@ -103,7 +115,7 @@
     }
     else
     {
-        <div  style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
             <span>Loading...</span>
         </div>
     }
@@ -124,6 +136,7 @@
     private bool isButtonDisabled = true;
     public string LoginButtonStyle => $"border-radius: 10px;margin-bottom: 10px;{(isButtonDisabled ? "background-color: gray !important;" : "background-color: #30cc7d !important;")}";
     public bool IsLoading { get; set; }
+    private bool IsValid = true;
 
     private void OnEmailChanged()
     {
@@ -167,12 +180,18 @@
                 }
                 Navigation.NavigateTo("/home", true);
             }
+            else if (result is not null && result.Status == 423)
+            {
+                IsValid = false;
+                ResponseMessage = result.Message;
+            }
             else
             {
-                await this.ToastObj.ShowAsync();
+                IsValid = false;
+                ResponseMessage = "Invalid email or password";
+                // await this.ToastObj.ShowAsync();
             }
 
-            ResponseMessage = "result";
         }
         catch (Exception ex)
         {
@@ -232,7 +251,7 @@
             IsLoading = false;
             StateHasChanged();
         }
-       
+
     }
 
 }

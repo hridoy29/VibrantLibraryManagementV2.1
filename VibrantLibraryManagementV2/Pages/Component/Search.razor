@@ -24,19 +24,19 @@
 
     .search-input {
         padding: 20px 0px;
-        width: 70%;
+        width: 60%;
     }
 
-        .search-input input {
-            border: 1px solid #f3f3f3;
-            border-radius: 30px;
-            padding: 10px;
-            background: #d3d3d30a;
-            width: 100%;
-        }
+    .search-input input {
+        border: 1px solid #f3f3f3;
+        border-radius: 30px;
+        padding: 10px;
+        background: #d3d3d30a;
+        width: 100%;
+    }
 
     .search-dropdown {
-        width: 25%;
+        width: 40%;
         border: 1px solid #f3f3f3;
         border-radius: 30px;
         background: #d3d3d30a;
@@ -69,10 +69,42 @@
         color: gray;
         box-sizing: border-box;
     }
-</style>
+
+    @@media only screen and (max-width: 760px) {
+        .search-library-catelog {
+            width: 100%;
+            /* margin: 30px 0px; */
+            padding: 20px 10px;
+            padding-bottom: 50px;
+        }
+
+        .search-library-catelog-text{
+            text-align: center;
+        }
+    }
+
+    .search-dropdown-item, .search-dropdown-item:focus{
+        border-bottom: none !important; /* Remove underline */
+    }
+
+    .e-input-group:not(.e-float-icon-left):not(.e-float-input)::before,
+    .e-input-group.e-control-wrapper:not(.e-float-icon-left):not(.e-float-input)::before 
+    {
+        background: none !important;
+    }
+
+    .e-tab .e-tab-header .e-indicator {
+        background: #089212;
+    }
+
+    .e-tab-text {
+        color: black !important;
+    }
+        
+ </style>
 
 <div class="search-library-catelog">
-    <h3>Search Library Catalogue</h3>
+    <h3 class="search-library-catelog-text">Search Library Catalogue</h3>
     <div class="search-library-form">
         <SfTab LoadOn="ContentLoad.Dynamic">
             <TabItems>
@@ -95,9 +127,11 @@
                                     <SfDropDownList TValue="string"
                                                     TItem="Games"
                                                     Placeholder="Keyword"
-                                                    DataSource="@LocalData">
+                                                    DataSource="@LocalData"
+                                                    CssClass="search-dropdown-item"
+                                    >
                                         <DropDownListFieldSettings Value="ID"
-                                                                   Text="Text"></DropDownListFieldSettings>
+                                                                   Text="Text" ></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
 

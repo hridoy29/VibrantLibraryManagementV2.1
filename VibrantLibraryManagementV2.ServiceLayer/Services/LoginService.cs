@@ -38,7 +38,7 @@ namespace VibrantLibraryManagementV2.ServiceLayer.Services
                 {
                     var loginResponse = await res.Content.ReadFromJsonAsync<LoginResponse>();
 
-                    if (loginResponse.Status == 200)
+                    if (loginResponse.Status == 200 || loginResponse.Status==423)
                     {
                         return loginResponse;
                     }

@@ -5,7 +5,7 @@
         <CarouselItem>
             <div class="first">
                 <div class="second" style="background: radial-gradient(circle at right top, transparent 40%, rgb(255 255 255)), linear-gradient(to top, rgb(255 255 255), transparent), url(@backgroundImage);">
-                    <h4 class="recomendation-text">Vibrant Recommended 1212131</h4>
+                    <h4 class="recomendation-text">Vibrant Recommended</h4>
                     <figure class="img-container">
                         <div class="left-image-cu">
                             <img src=".././images/lord-of-the-rings-book-cover.jpg" alt="Golden Gate Bridge, San Francisco" style="height:100%;width:100%; border-radius: 20px;" />
@@ -17,7 +17,7 @@
                                     <p>The Fellowship of the Ring</p>
                                     <h6>by J.R.R. Tolkien</h6>
                                 </div>
-                                <div>
+                                <div class="summery">
                                     <h6>Summary</h6>
                                     <p>
                                         Frodo Baggins, a hobbit, is entrusted with the responsibility of destroying the One Ring, which holds the power to control the world. With the help of his loyal companions..
@@ -76,7 +76,6 @@
     public string backgroundImage { get; set; } = "images/harry-potter-free.jpg";
     public string backgroundImage1 { get; set; } = "images/harry-potter-book-cover.jpg";
 }
-
 <style>
     .control-container {
         background-color: #e5e5e5;
@@ -94,11 +93,11 @@
         padding-bottom: 30px;
     }
 
-        .e-carousel .e-carousel-items .e-carousel-item .img-container .left-image-cu {
-            width: 280px;
-            height: 300px;
-            padding-left: 100px;
-        }
+    .e-carousel .e-carousel-items .e-carousel-item .img-container .left-image-cu {
+        width: 280px;
+        height: 300px;
+        padding-left: 100px;
+    }
 
     .e-carousel .e-carousel-items .e-carousel-item .img-caption {
         width: 320px;
@@ -123,8 +122,7 @@
         width: 100vw;
         min-height: 100%;
         
-    }
-        
+    }  
 
     .recomendation-text {
         font-family: "Roboto", sans-serif;
@@ -139,5 +137,38 @@
             gap: 20px;
             align-items: center;
         }
+
+        .second {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .e-carousel .e-carousel-items .e-carousel-item .img-container .left-image-cu {
+            padding-left: 0px;
+        }
+
+        .control-container {
+            height: 620px;
+            width: 95vw;
+        }
+
+        .e-carousel .e-carousel-items .e-carousel-item .img-caption {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .recomendation-text {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .summery{
+            display: none;
+        }
     }
+
 </style>

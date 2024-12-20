@@ -1,0 +1,136 @@
+﻿/*.navbar-ul {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    list-style: none;
+    align-items: center;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar-ul-mobile {
+    display: @(showMobileMenu ? "block" : "none");
+    background: white;
+    position: absolute;
+    border-radius: 10px;
+    top: 60px;
+    right: 100px;
+    z-index: 10;
+    text-align: justify;
+    padding: 0px 20px;
+}
+
+    .navbar-ul-mobile li {
+        list-style: none;
+        padding: 10px;
+    }
+
+        .navbar-ul-mobile li:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+.navbar-ul li:hover {
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.navbar-menu {
+    display: none;
+}
+
+    .navbar-menu:hover {
+        cursor: pointer;
+    }
+
+.user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.logout-box {
+    display: @(showOption ? "block" : "none");
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    top: 30px;
+    right: 0px;
+}
+
+.navbar-custom {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    padding: 20px 100px;
+    border-bottom: .5px solid rgba(0, 0, 0, .2);
+    gap: 10px;
+}
+
+.logo {
+    margin: 0px;
+    padding: 0px;
+}
+
+.search-box {
+    position: relative;
+}
+
+    .search-box input {
+        border-radius: 30px;
+        background: white;
+        border: 1px solid lightgray;
+        text-align: left;
+    }
+
+.search-icon-navbar {
+    width: 30px;
+    position: absolute;
+    left: 10px;
+    top: 7px;
+}
+
+.search-icon-navbar-mobile {
+    display: none;
+    width: 20px;
+}
+
+.logout-box input {
+    padding: 5px 10px;
+    border: none;
+}
+
+@@media only screen and (max-width: 760px) {
+    .navbar-custom {
+        padding: 10px;
+    }
+
+    .navbar-ul-mobile {
+        right: 10px;
+    }
+}
+
+@@media only screen and (max-width: 1360px) {
+    .navbar-ul {
+        display: none;
+    }
+
+    .navbar-menu {
+        display: block;
+    }
+
+    .search-icon-navbar-mobile {
+        display: block;
+    }
+
+    .search-box {
+        display: none;
+    }
+}
+*/
