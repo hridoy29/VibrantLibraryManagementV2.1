@@ -39,12 +39,19 @@ RequestLocalizationOptions GetLocalizationOption()
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzYyMjEzOUAzMjM4MmUzMDJlMzBGYkxlbFFweldsTm9iZ1JrUG0zbzZXTUswZUhYZ3BhY3pwdlZjOGp5cklnPQ==");
 
 builder.Services.AddSyncfusionBlazor();
+builder.Services.AddServerSideBlazor().AddCircuitOptions(e => { e.DetailedErrors = true; });
 
 var baseUrl = builder.Configuration.GetValue<string>("Api:BaseUrl");
-
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseUrl) });
 
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IInterestService, InterestService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IRecommendedService, RecommendedService>();
+builder.Services.AddScoped<IInterestAlerts, InterestAlerts>();
+builder.Services.AddScoped<IMightBeInterested, MightBeInterested>();
+builder.Services.AddScoped<IImagesServices, ImagesServices>();
+builder.Services.AddScoped<ILogOutService, LogOutService>();
 
 builder.Services.AddScoped<TokenService>();
 

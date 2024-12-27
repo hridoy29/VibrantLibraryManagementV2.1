@@ -9,35 +9,53 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="main-container">
+@if (!artificialDelay)
+{
+    <div class="main-container">
 
-    <header class="header">
-        <Navbar OnSearchBoxClicked="ToggleSearchSection" />
-        @if (showingSearchSection)
-        {
-            <Search/>
-        }
-    </header>
+        <header class="header">
+            <Navbar OnSearchBoxClicked="ToggleSearchSection" />
 
-    <Carousel />
+            @if (showingSearchSection)
+            {
+                <Search />
+            }
+        </header>
 
-    <InterestAlert />
-    <div style="width: 100%;">
+        @*  <Carousel /> *@
+        <RecommentedCarousel />
 
-    <Interested />
+        <InterestAlert />
+
+        <MightBeInterested />
+
+        <div style="width: 100%; background: white; padding-top: 1rem; padding-bottom: 80px;">
+            <ReadingHistory />
+        </div>
+
+        <div style="width: 100%; padding: 30px auto; text-align: center;">
+            <Foot />
+        </div>
+
     </div>
-    <div style="width: 100%; background: white;padding-top: 3rem; ">
-        <ReadingHistory />
+}
+else
+{
+    <div style="display: flex; align-items: center; justify-content: center; margin-top: 90px;">
+        <SfSkeleton Height="500px" Shape=SkeletonType.Text></SfSkeleton>
     </div>
-    <div style="width: 100%; ">
-        <Foot/>
-    </div>
+}
 
-
-</div>
 @code {
+    public bool artificialDelay { get; set; }
     public bool showingSearchSection { get; set; } = false;
     [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        artificialDelay = true;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -51,6 +69,10 @@
             {
                 _navigate.NavigateTo("/home");
             }
+
+            await Task.Delay(300);
+            artificialDelay = false;
+            StateHasChanged();
         }
     }
 
@@ -80,4 +102,5 @@
         border-bottom: 1px solid lightgray;
         background: white;
     }
+
 </style>

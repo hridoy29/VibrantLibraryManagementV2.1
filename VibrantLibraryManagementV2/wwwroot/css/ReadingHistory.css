@@ -1,16 +1,4 @@
-﻿.blur-wrapper {
-    display: none;
-    position: absolute;
-    left: 100px;
-    top: 0px;
-    width: 47px;
-    height: 100%;
-    z-index: 1;
-    background: linear-gradient(to right, rgb(255 255 255 / 11%) 13%, rgb(255 255 255 / 112%) 12%, rgb(255 255 255 / 15%) 87%), rgba(255, 255, 255, .7);
-    box-shadow: 18px 0 12px -2px rgb(255 255 255 / 74%);
-}
-
-.interest-alert-title {
+﻿.reading-history-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,19 +6,22 @@
     padding: 30px 100px;
 }
 
-.interest-alerts-main-container {
-    width: 97vw;
+.reading-history-main-container {
+    width: 98vw;
     position: relative;
-    padding: 0px 110px;
+    padding: 3px 110px;
     box-sizing: border-box;
+    padding-bottom: 40px;
 }
 
-.carousel {
-    height: 280px;
+.carousel-reading-history {
+    height: 200px;
     display: flex;
     gap: 20px;
     overflow: hidden;
     scroll-behavior: smooth;
+    padding-bottom: 20px;
+    margin: 0px 10px;
 }
 
 .share-reading-history-card{
@@ -51,28 +42,25 @@
     border-radius: 10px;
 }
 
-.prev, .next {
+.prev-reading-history, .next-reading-history {
     position: absolute;
     top: 35%;
     transform: translateY(-50%);
     background-color: transparent;
-    color: white;
     border: none;
     cursor: pointer;
     margin: 10px 90px;
-    color: black;
+    color: gray;
     font-weight: bold;
     font-size: 2em;
 }
 
-.prev {
+.prev-reading-history {
     left: 0px;
-    z-index: 2;
 }
 
-.next {
-    right: -50px;
-    color: lightgray;
+.next-reading-history {
+    right: 0px;
 }
 
 .interest-alert-book-name {
@@ -105,30 +93,29 @@
 
 
 @media only screen and (max-width: 760px) {
-    .interest-alerts-main-container, .interest-alert-title {
+    .reading-history-main-container, .reading-history-title {
         padding: 20px;
         width: 96vw;
     }
-
-    /*.prev {
-        margin: 5px 20px;
-    }*/
-    .prev {
-        left: -92px !important;
-        z-index: 2;
+    .prev-reading-history {
+        left: -15px !important;
+        margin: 20px;
     }
-    .next {
-        /*margin: 5px 20px;*/
-
+    .next-reading-history {
+        right: -15px;
+        margin: 20px;
     }
-    .next {
-        right: -105px !important;
-        color: lightgray;
+    .reading-history-main-container{
+        padding: 0px 20px 30px 20px;
     }
-
-    .blur-wrapper {
-        left: 10px;
-    }
-    
 }
 
+@media only screen and (max-width: 400px) {
+    .prev-reading-history{
+        left: -15px !important;
+    }
+
+    .next-reading-history{
+        right: -15px;
+    }
+}

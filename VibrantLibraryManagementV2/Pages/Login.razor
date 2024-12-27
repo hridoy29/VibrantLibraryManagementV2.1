@@ -69,39 +69,49 @@
                                             <div class="remember-me">
                                                 <SfCheckBox Label="@localizer["Remember me"]" @bind-Checked="isChecked" @onchange="onRememberMechange"></SfCheckBox>
                                             </div>
-                                            <SfButton CssClass="  e-primary custom-button login-button"
-                                                      style="@LoginButtonStyle"
-                                                      class="w-100"
-                                                      Disabled=@isButtonDisabled>@localizer["Log in"]</SfButton>
+                                            <SfButton 
+                                                CssClass="e-primary custom-button login-button"
+                                                style="@LoginButtonStyle"
+                                                class="w-100"
+                                                Disabled=@isButtonDisabled
+                                            >@localizer["Log in"]</SfButton>
                                         </div>
                                     </FormButtons>
                                 </FormItems>
                             </SfDataForm>
+                            <div>
+                                @{
+                                if (failedloginattempt && LoginAttemptLeft is not null && LoginAttemptLeft.failed == LoginAttemptLeft.retries)
+                                {
+                                    <span class="error-text">Your account is locked, contact with you IT</span>
+                                }
+                            }
+                        </div>
 
-                            <div class="col-12 mt-2">
-                                <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
-                            </div>
+                        <div class="col-12 mt-2">
+                            <p class="custom-p" style="font-size: 13px;">@localizer["Forget Password"]?</p>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="d-flex g-3" style="font-size: 13px;"> <span class="text-muted">@localizer["Don't have an account"]?</span> <p class="custom-p ms-1">@localizer["Create account"]</p></div>
+                        </div>
 
-                            <div class="privacy-policy">
-                                <p style="margin-bottom: 0px;">
-                                    <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
-                                    <span style="text-decoration: underline;">@localizer["terms of service"]</span>
-                                </p>
-                                <div style="width: 100px;">
-                                    <ChooseLanguage />
-                                </div>
+                        <div class="privacy-policy">
+                            <p style="margin-bottom: 0px; font-size: 16px;">
+                                <span style="text-decoration: underline;">@localizer["PrivacyPolicy"]</span> @localizer["and"]
+                                <span style="text-decoration: underline;">@localizer["terms of service"]</span>
+                            </p>
+                            <div style="width: 100px;">
+                                <ChooseLanguage />
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-8 m-0 p-0 right-column">
-                        <img src="/images/bookstreehq.jpg" class="tree-img" />
-                    </div>
                 </div>
-
+                <div class="col-12 col-md-8 m-0 p-0 right-column">
+                    <img src="/images/bookstreehq.jpg" class="tree-img" />
+                </div>
             </div>
+
+        </div>
 
         @* Toast Notification *@
         <div class="col-lg-12 control-section toast-default-section">
@@ -115,7 +125,7 @@
     }
     else
     {
-        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
             <span>Loading...</span>
         </div>
     }
@@ -126,36 +136,17 @@
     SfTextBox TextBoxEmailObj;
     SfTextBox TextBoxPasswordObj;
     SfToast ToastObj;
+    private LoginEntity loginEntity = new LoginEntity();
     bool IsPasswordVisible = false;
     InputType TextBoxType => IsPasswordVisible ? InputType.Text : InputType.Password;
-
-    public string ResponseMessage { get; set; } = string.Empty;
-    private LoginEntity loginEntity = new LoginEntity();
-
+    public Logins LoginAttemptLeft = new Logins();
+    public bool failedloginattempt = false;
     private bool isChecked = false;
     private bool isButtonDisabled = true;
     public string LoginButtonStyle => $"border-radius: 10px;margin-bottom: 10px;{(isButtonDisabled ? "background-color: gray !important;" : "background-color: #30cc7d !important;")}";
-    public bool IsLoading { get; set; }
     private bool IsValid = true;
-
-    private void OnEmailChanged()
-    {
-        string email = TextBoxEmailObj.Value;
-        if (!string.IsNullOrWhiteSpace(TextBoxPasswordObj.Value) && !string.IsNullOrWhiteSpace(TextBoxEmailObj.Value))
-        {
-            isButtonDisabled = false;
-        }
-        StateHasChanged();
-    }
-
-    private void OnPasswordChanged()
-    {
-        if (!string.IsNullOrWhiteSpace(TextBoxPasswordObj.Value) && !string.IsNullOrWhiteSpace(TextBoxEmailObj.Value))
-        {
-            isButtonDisabled = false;
-        }
-        StateHasChanged();
-    }
+    public bool IsLoading { get; set; }
+    public string ResponseMessage { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -164,6 +155,43 @@
         StateHasChanged();
     }
 
+    private void OnEmailChanged()
+    {
+        string email = TextBoxEmailObj.Value;
+
+        string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        bool isEmailValid = Regex.IsMatch(email, emailPattern);
+
+        if (!string.IsNullOrWhiteSpace(TextBoxPasswordObj.Value) && !string.IsNullOrWhiteSpace(TextBoxEmailObj.Value) && isEmailValid)
+        {
+            isButtonDisabled = false;
+            StateHasChanged();
+            return;
+        }
+        isButtonDisabled = true;
+        StateHasChanged();
+    }
+
+    private void OnPasswordChanged()
+    {
+        string email = TextBoxEmailObj.Value;
+        string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        bool isEmailValid = Regex.IsMatch(email, emailPattern);
+
+        if (!string.IsNullOrWhiteSpace(TextBoxPasswordObj.Value) && !string.IsNullOrWhiteSpace(TextBoxEmailObj.Value) && isEmailValid)
+        {
+            isButtonDisabled = false;
+            StateHasChanged();
+            return;
+        }
+        isButtonDisabled = true;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Perform login. On successfull login redirect to Home page
+    /// </summary>
+    /// <returns></returns>
     private async Task Submit()
     {
         try
@@ -184,12 +212,23 @@
             {
                 IsValid = false;
                 ResponseMessage = result.Message;
+                isButtonDisabled = true;
+            }
+            else if (result is not null)
+            {
+                LoginAttemptLeft = result.Logins;
+                IsValid = false;
+                ResponseMessage = "Invalid email or password";
+                failedloginattempt = true;
+                isButtonDisabled = true;
+                StateHasChanged();
             }
             else
             {
                 IsValid = false;
                 ResponseMessage = "Invalid email or password";
-                // await this.ToastObj.ShowAsync();
+                isButtonDisabled = true;
+                StateHasChanged();
             }
 
         }
@@ -215,28 +254,6 @@
         await this.TextBoxPasswordObj.AddIconAsync("prepend", "e-icons");
     }
 
-    // Trigger Google Authentication
-    private async Task GoogleLogin()
-    {
-        Navigation.NavigateTo("auth/login-google", forceLoad: true);
-    }
-
-    // Adding Eye Icon
-    private string PasswordIconClass { get; set; } = "e-icons e-password-show";
-
-    private void TogglePasswordVisibility()
-    {
-        if (TextBoxPasswordObj.Type == InputType.Password)
-        {
-            TextBoxPasswordObj.Type = InputType.Text;
-            PasswordIconClass = "e-icons e-password-hide";
-        }
-        else
-        {
-            TextBoxPasswordObj.Type = InputType.Password;
-            PasswordIconClass = "e-icons e-password-show";
-        }
-    }
 
     private async Task onRememberMechange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
@@ -251,8 +268,6 @@
             IsLoading = false;
             StateHasChanged();
         }
-
     }
-
 }
 

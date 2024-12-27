@@ -1,51 +1,30 @@
-﻿let isDragging = false;
-let startX;
-let scrollLeft;
-
-window.initializeCarousel = function () {
+﻿window.moveSlideleftright = function (direction) {
     var carousel = document.getElementById("readingHistoryCarouselContainer");
+    var readingHistoryLeftButton = document.getElementById("reading-history-left-button");
+    var radingHistoryRightButton = document.getElementById("next-reading-history");
+    var leftToScroll = carousel.scrollWidth - carousel.scrollLeft;
 
-    // Touch event handlers for swiping
-    carousel.addEventListener("touchstart", function (e) {
-        isDragging = true;
-        startX = e.touches[0].pageX;
-        scrollLeft = carousel.scrollLeft;
-    });
+    if (carousel) {
+        if (direction === 1) {
+            if (leftToScroll > 300) {
+                carousel.scrollLeft += direction * 340;
+            }
+        } else {
+            carousel.scrollLeft += direction * 340;
+        }
+    }
 
-    carousel.addEventListener("touchmove", function (e) {
-        if (!isDragging) return;
-        let moveX = e.touches[0].pageX - startX;
-        carousel.scrollLeft = scrollLeft - moveX;
-    });
+    if (carousel.scrollLeft === 0) {
+        readingHistoryLeftButton.style.display = "none";
+    } else {
+        readingHistoryLeftButton.style.display = "block";
+    }
 
-    carousel.addEventListener("touchend", function () {
-        isDragging = false;
-    });
+    var isAtRight = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 200;
 
-    // Mouse event handlers for dragging (desktop)
-    carousel.addEventListener("mousedown", function (e) {
-        isDragging = true;
-        startX = e.pageX;
-        scrollLeft = carousel.scrollLeft;
-    });
-
-    carousel.addEventListener("mousemove", function (e) {
-        if (!isDragging) return;
-        let moveX = e.pageX - startX;
-        carousel.scrollLeft = scrollLeft - moveX;
-    });
-
-    carousel.addEventListener("mouseup", function () {
-        isDragging = false;
-    });
-
-    // Prevent text selection while dragging
-    carousel.addEventListener("dragstart", function (e) {
-        e.preventDefault();
-    });
-}
-
-window.moveSlideleftright = function (direction) {
-    var carousel = document.getElementById("readingHistoryCarouselContainer");
-    carousel.scrollLeft += direction * 400;
+    if (isAtRight) {
+        radingHistoryRightButton.style.display = "none";
+    } else {
+        radingHistoryRightButton.style.display = "block";
+    }
 }

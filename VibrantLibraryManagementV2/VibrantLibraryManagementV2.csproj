@@ -9,6 +9,7 @@
 	<ItemGroup>
 	  <Content Remove="Pages\Component\CustomFooter.razor" />
 	  <Content Remove="Pages\Component\Footer.razor" />
+	  <Content Remove="wwwroot\scripts\ReadingHistory.js" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -23,12 +24,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\VibrantLibraryManagement.SharedComponent\VibrantLibraryManagementV2.SharedComponent.csproj" />
 	  <ProjectReference Include="..\VibrantLibraryManagementV2.ServiceLayer\VibrantLibraryManagementV2.ServiceLayer.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="Pages\Component\CustomFooter.razor" />
 	  <None Include="Pages\Component\Footer.razor" />
+	  <None Include="wwwroot\scripts\ReadingHistory.js" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -37,6 +40,13 @@
 
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="Pages\Component\Footer.razor" />
+	  <_ContentIncludedByDefault Remove="wwwroot\scripts\ReadingHistory.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="Pages\Component\EmptyCard.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
 	</ItemGroup>
 
 </Project>

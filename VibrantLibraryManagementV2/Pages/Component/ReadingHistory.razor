@@ -1,15 +1,17 @@
 ﻿@inject IJSRuntime JSRuntime
 
-<link rel="stylesheet"  href="css/ReadingHistory.css"/>
+<head>
+    <link rel="stylesheet"  href="css/ReadingHistory.css"/>
+    <script type="text/javascript" src="/scripts/ReadingHistory.js"></script>
+</head>
 
-<div class="interest-alert-title">
+<div class="reading-history-title">
     <h3>Reading History</h3>
-    <p style="margin: 0px;">View all</p>
+    <p style="margin: 0px; cursor: pointer;">View all</p>
 </div>
 
-<div class="interest-alerts-main-container" >
-    <div class="blur-wrapper"></div>
-    <div class="carousel" id="readingHistoryCarouselContainer" >
+<div class="reading-history-main-container">
+    <div class="carousel-reading-history" id="readingHistoryCarouselContainer" >
         @foreach (var item in CarouselItems)
         {
             <div class="carousel-slide-reading-history " >
@@ -18,38 +20,21 @@
         }
     </div>
 
-    <button class="prev" @onclick="MovePrev">❮</button>
-    <button class="next" @onclick="MoveNext">❯</button>
+    <button class="prev-reading-history" id="reading-history-left-button" style="display: none;" @onclick="MovePrev">❮</button>
+    <button class="next-reading-history" id="next-reading-history" @onclick="MoveNext">❯</button>
 </div>
 
 
 @code {
     public List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>
     {
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
-        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter" },
-        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter1" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings2", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry 3", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings 4", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter 5" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings 6", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter 7" }
     };
 
     public class CarouselItemModel
@@ -73,7 +58,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("initializeCarousel");
+            // await JSRuntime.InvokeVoidAsync("initializeCarouselReadingHistory");
         }
     }
 }

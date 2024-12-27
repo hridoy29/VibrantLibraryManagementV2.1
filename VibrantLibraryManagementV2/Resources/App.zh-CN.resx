@@ -147,6 +147,9 @@
   <data name="Privacy" xml:space="preserve">
     <value>隱私</value>
   </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>隱私權政策</value>
+  </data>
   <data name="Remember me" xml:space="preserve">
     <value>記住帳號</value>
   </data>

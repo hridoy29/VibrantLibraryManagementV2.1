@@ -2,12 +2,18 @@
 @inject AuthenticationStateProvider _authenticationStateProvider
 @using VibrantLibraryManagementV2.HelperServices
 @inject CustomAuthenticationStateProvider _customAuthProviders
+@inject IJSRuntime JSRuntime
+@inject ILogOutService logoutservices
+
+<head>
+    <link rel="stylesheet" href="/css/Navbar.css" />
+</head>
 
 <div class="navbar-custom">
     <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
     <div style="display: flex; gap: 40px;">
         <div class="search-box" @onclick="searchBoxClicked">
-            <input type="button" value="Search"/>
+            <input type="button" value="Search" />
             <img src="/icons/search.png" class="search-icon-navbar" />
         </div>
 
@@ -19,12 +25,16 @@
             <li>
                 <div class="user">
                     <div class="e-avatar e-avatar-small e-avatar-circle image">
-                        <img src="/images/user.jpg" style="width: 100%;" />
+                        <img src="/images/user.jpg" style="width: 40px; height: 35px;" />
                     </div>
                     <p style="margin: 0px;">Steven Toh</p>
+
                     <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
 
-                    <div class="logout-box">
+                    <div class="options-box" style="display: @(showOption ? "block" : "")">
+                        <p>Loans</p>
+                        <p>Reservations</p>
+                        <p>Interest Profile</p>
                         <button @onclick="LogOut">Log Out</button>
                     </div>
                 </div>
@@ -39,25 +49,28 @@
     <div class="navbar-menu">
         <img src="/icons/search.png" class="search-icon-navbar-mobile" @onclick="searchBoxClicked" />
         <div class="humberger-menu">
-        <SfIcon Name="IconName.Menu" @onclick="ShowMobileMenu"></SfIcon>
+            <SfIcon Name="IconName.Menu" @onclick="ShowMobileMenu"></SfIcon>
         </div>
     </div>
 
     @* Nabar for mobile devices *@
-    <ul class="navbar-ul-mobile">
+    <ul class="navbar-ul-mobile" style="display: @(showMobileMenu ? "block" : "")">
         <li>Home</li>
         <li>Interest</li>
         <li>Topics</li>
         <li>My Loans</li>
         <li>
             <div class="user">
-                <div class="e-avatar e-avatar-xsmall e-avatar-circle image">
-                    <img src="/images/user.jpg" style="width: 100%;" />
+                <div class="e-avatar e-avatar-xsmall e-avatar-circle image avatar-navbar">
+                    <img src="/images/user.jpg" style="width: 25px;  height: 25px;" />
                 </div>
                 <p style="margin: 0px;">Steven Toh</p>
                 <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
 
-                <div class="logout-box">
+                <div class="options-box" style="display: @(showOption ? "block" : "")">
+                    <p>Loans</p>
+                    <p>Reservations</p>
+                    <p>Interest Profile</p>
                     <button @onclick="LogOut">Log Out</button>
                 </div>
             </div>
@@ -72,11 +85,14 @@
     public bool showOption { get; set; } = false;
     public bool showMobileMenu { get; set; } = false;
     [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
+    private string token;
 
     private async Task LogOut()
     {
+        token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        var result = await logoutservices.LogOutAsync(token);
         await _customAuthProviders.LogoutAsync();
-        _navigate.NavigateTo("/login");
+        _navigate.NavigateTo("/login", forceLoad: true);
     }
 
     private void ToggleShowOption()
@@ -94,167 +110,6 @@
         if (OnSearchBoxClicked.HasDelegate)
         {
             OnSearchBoxClicked.InvokeAsync(null);
-        }        
+        }
     }
 }
-
-<style>
-    .navbar-ul {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-        list-style: none;
-        align-items: center;
-        padding: 0px;
-        margin: 0px;
-    }
-
-    .navbar-ul-mobile {
-        display: @(showMobileMenu ? "block" : "none");
-        background: white;
-        position: absolute;
-        border-radius: 10px;
-        top: 60px;
-        right: 100px;
-        z-index: 10;
-        text-align: justify;
-        padding: 0px 20px;
-    }
-
-    .navbar-ul-mobile li {
-        list-style: none;
-        padding: 10px;
-    }
-
-    .navbar-ul-mobile li:hover {
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .navbar-ul li:hover {
-        box-sizing: border-box;
-        cursor: pointer;
-        text-decoration: underline;
-    }
-
-    .navbar-menu {
-        display: none;
-        gap: 30px;
-    }
-
-    .navbar-menu:hover {
-        cursor: pointer;
-    }
-
-    .user {
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .logout-box {
-        display: @(showOption ? "block" : "none");
-        width: 100px;
-        height: 50px;
-        position: absolute;
-        top: 30px;
-        right: 0px;
-    }
-
-    .logout-box button{
-        border: none;
-        border-radius: 5px;
-
-    }
-
-    .navbar-custom {
-        position: relative;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0px;
-        padding: 20px 100px;
-        border-bottom: .5px solid rgba(0, 0, 0, .2);
-        gap: 10px;
-    }
-
-    .logo {
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .search-box {
-        position: relative;
-    }
-
-    .search-box input {
-        border-radius: 30px;
-        background: white;
-        border: 1px solid lightgray;
-        text-align: left;
-        padding: 9px 40px 10px 45px;
-    }
-
-    .search-icon-navbar {
-        width: 30px;
-        position: absolute;
-        left: 10px;
-        top: 7px;
-    }
-
-    .search-icon-navbar-mobile {
-        display: none;
-        width: 20px;
-    }
-
-    .logout-box input{ 
-        border: none;
-        padding-left: 35px;
-        padding-top: 9px;
-        padding-bottom: 10px;
-    }
-
-    .humberger-menu{
-        display: none;
-    }
-    @@media only screen and (max-width: 760px) {
-        .navbar-custom {
-            padding: 10px;
-        }
-
-        .navbar-ul-mobile {
-            right: 10px;
-        }
-    }
-
-    @@media only screen and (max-width: 1360px) {
-        .navbar-ul {
-            display: none;
-        }
-
-        .navbar-menu {
-            display: block;
-        }
-
-        .search-icon-navbar-mobile {
-            display: block;
-        }
-
-        .search-box{
-            display: none;
-        }
-
-        .humberger-menu{
-            display: block;
-        }
-
-        .navbar-menu {
-            display: flex;
-            gap: 20px;
-        }
-    }
-
-</style>

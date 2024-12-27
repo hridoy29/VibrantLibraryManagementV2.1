@@ -42,6 +42,8 @@ namespace VibrantLibraryManagementV2.ServiceLayer.Services
                     {
                         return loginResponse;
                     }
+
+                    return loginResponse;
                 }
                 return null;
             }

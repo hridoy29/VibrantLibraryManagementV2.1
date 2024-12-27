@@ -11,5 +11,13 @@ namespace VibrantLibraryManagementV2.Core.Models
         public int Status { get; set; }
         public string Message { get; set; }
         public string AccessToken { get; set; }
+        public Logins Logins { get; set; } = new Logins();
+
+    }
+
+    public class Logins
+    {
+        public int retries { get; set; }
+        public int failed { get; set; }
     }
 }

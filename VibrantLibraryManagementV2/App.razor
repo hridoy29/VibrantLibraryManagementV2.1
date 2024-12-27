@@ -1,18 +1,49 @@
-﻿<CascadingAuthenticationState>
+﻿@inject TokenService _tokenService
+@inject ISessionService _sessionService
+@inject NavigationManager _navigate
+@inject ILogOutService logoutservices
+@inject CustomAuthenticationStateProvider _customAuthProviders
+
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
 </CascadingAuthenticationState>
+<VibrantLibraryManagementV2.Pages.AuthComponent.AuthInitializer />
 
+@code {
+    private bool _isInitialized;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_isInitialized)
+        {
+            _isInitialized = true;
+            await HandleNavigation();
+        }
+    }
 
-<VibrantLibraryManagementV2.Pages.AuthComponent.AuthInitializer/>
+    private async Task HandleNavigation()
+    {
+        var token = await _sessionService.Get<string>("authToken");
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var isExpired = _tokenService.IsTokenExpired(token);
+            if (isExpired)
+            {
+                var result = await logoutservices.LogOutAsync(token);
+                await _customAuthProviders.LogoutAsync();
+                _navigate.NavigateTo("/login", forceLoad: true);
+            }
+        }
+    }
+}

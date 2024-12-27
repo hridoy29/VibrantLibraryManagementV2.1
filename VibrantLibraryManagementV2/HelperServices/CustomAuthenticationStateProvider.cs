@@ -18,10 +18,13 @@ namespace VibrantLibraryManagementV2.HelperServices
         {
             _jsRuntime = jsRuntime;
             _httpContextAccessor = httpContextAccessor;
-            //_sessionStorageService = sessionStorageService;
             _anonymousState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
+        /// <summary>
+        /// Get Authentication state from session.    
+        /// </summary>
+        /// <returns>AuthenticationState object</returns>
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             if (_isInitialized)
@@ -33,6 +36,10 @@ namespace VibrantLibraryManagementV2.HelperServices
             return _anonymousState;
         }
 
+        /// <summary>
+        /// Check authorization and authentication
+        /// </summary>
+        /// <returns></returns>
         public async Task InitializeAuthenticationStateAsync()
         {
             try
@@ -66,7 +73,11 @@ namespace VibrantLibraryManagementV2.HelperServices
             }
         }
 
-
+        /// <summary>
+        /// Save/Remove Token on local storage and set authentication
+        /// </summary>
+        /// <param name="token">Token as string</param>
+        /// <returns>N/A</returns>
         public async Task SetAuthenticationStateAsync(string token = null)
         {
             ClaimsIdentity identity;
@@ -89,6 +100,10 @@ namespace VibrantLibraryManagementV2.HelperServices
             NotifyAuthenticationStateChanged(Task.FromResult(authState));
         }
 
+        /// <summary>
+        /// Perform logout and remove token from storage
+        /// </summary>
+        /// <returns></returns>
         public async Task LogoutAsync()
         {
             await SetAuthenticationStateAsync(null);

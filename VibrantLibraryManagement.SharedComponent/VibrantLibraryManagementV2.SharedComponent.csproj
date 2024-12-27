@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.35" />
+		<PackageReference Include="Syncfusion.Blazor" Version="28.1.33" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\VibrantLibraryManagementV2.Core\VibrantLibraryManagementV2.Core.csproj" />
+		<ProjectReference Include="..\VibrantLibraryManagementV2.ServiceLayer\VibrantLibraryManagementV2.ServiceLayer.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
+
+</Project>

@@ -147,6 +147,9 @@
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
   </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>PrivacyPolicy</value>
+  </data>
   <data name="Remember me" xml:space="preserve">
     <value>Remember me</value>
   </data>
