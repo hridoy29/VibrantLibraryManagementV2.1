@@ -5,29 +5,11 @@
 <div id="loading-spinner" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
     <span>Loading...</span>
 </div>
-<div class="page d-flex" id="app-wrapper" style="flex-direction: column;">
-    <AuthorizeView>
-        <Authorized>
-            <header class="header">
-                <Navbar OnSearchBoxClicked="ToggleSearchSection" />
-
-                @if (showingSearchSection)
-                {
-                    <Search />
-                }
-            </header>
-        </Authorized>
-    </AuthorizeView>
-    <main>
+<div class="page" id="app-wrapper">
+    <main >
         @Body
     </main>
 </div>
 
 @code {
-    public bool showingSearchSection { get; set; } = false;
-    private void ToggleSearchSection()
-    {
-        showingSearchSection = !showingSearchSection;
-        StateHasChanged();
-    }
 }

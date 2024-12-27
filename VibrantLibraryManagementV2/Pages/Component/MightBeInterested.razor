@@ -1,7 +1,10 @@
 ﻿@inject IJSRuntime JSRuntime
 @inject IMightBeInterested mightBeInterested
 
-
+<head>
+    <link rel="stylesheet" href="/css/MightBeInterested.css" />
+    <script type="text/javascript" src="/scripts/MightBeInterested.js"></script>
+</head>
 
 <div style="max-width: 98vw;" class="interested-section @(errorMessage is not null ? "errorInGettingData" : "")">
     <div class="interested-alert-title">

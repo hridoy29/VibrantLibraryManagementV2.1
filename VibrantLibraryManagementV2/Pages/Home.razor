@@ -13,7 +13,14 @@
 {
     <div class="main-container">
 
-       
+        <header class="header">
+            <Navbar OnSearchBoxClicked="ToggleSearchSection" />
+
+            @if (showingSearchSection)
+            {
+                <Search />
+            }
+        </header>
 
         @*  <Carousel /> *@
         <RecommentedCarousel />
@@ -29,26 +36,17 @@
         <div style="width: 100%; padding: 30px auto; text-align: center;">
             <Foot />
         </div>
-
     </div>
 }
 else
 {
-    <div style="display: flex; align-items: center; justify-content: center; margin-top: 90px;">
-        <SfSkeleton Height="500px" Shape=SkeletonType.Text></SfSkeleton>
-    </div>
+    <SfSkeleton Height="15px" Shape=SkeletonType.Text></SfSkeleton>
 }
 
 @code {
-    public bool artificialDelay { get; set; }
+    public bool artificialDelay = true;
     public bool showingSearchSection { get; set; } = false;
     [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        artificialDelay = true;
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -63,10 +61,15 @@ else
                 _navigate.NavigateTo("/home");
             }
 
-            await Task.Delay(300);
-            artificialDelay = false;
-            StateHasChanged();
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(300);
+        artificialDelay = false;
+        StateHasChanged();
+        
     }
 
     private async Task LogOut()
