@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime JSRuntime
 @inject IRecommendedService RecommendedService
 @inject IImagesServices ImagesServices
-
+@inject ILogOutService _logOutService
 <head>
     <link rel="stylesheet" href="/css/Carousel.css" />
 </head>
@@ -64,6 +64,10 @@
 
                 var response = await RecommendedService.FetchEditorsPicksAsync(token);
                 recommends = response;
+                // if(recommends.Response is null)
+                // {
+                //     await _logOutService.LogOutAsync(token);
+                // }
             }
             catch (Exception ex)
             {

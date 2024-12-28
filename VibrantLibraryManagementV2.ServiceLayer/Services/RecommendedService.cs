@@ -50,7 +50,11 @@ namespace VibrantLibraryManagementV2.ServiceLayer.Services
                     var searchResponse = await response.Content.ReadFromJsonAsync<SearchResponse>();
                     return searchResponse;
                 }
-
+                //if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                //{
+                //    var searchResponse = await response.Content.ReadFromJsonAsync<SearchResponse>();
+                //    return searchResponse;
+                //}
                 // Throw an exception if the response is not successful
                 throw new HttpRequestException($"Error fetching data: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}");
             }
