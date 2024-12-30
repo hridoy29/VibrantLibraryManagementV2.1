@@ -1,0 +1,64 @@
+﻿@inject IJSRuntime JSRuntime
+
+<head>
+    <link rel="stylesheet"  href="css/ReadingHistory.css"/>
+    <script type="text/javascript" src="/scripts/ReadingHistory.js"></script>
+</head>
+
+<div class="reading-history-title">
+    <h3>Reading History</h3>
+    <p style="margin: 0px; cursor: pointer;">View all</p>
+</div>
+
+<div class="reading-history-main-container">
+    <div class="carousel-reading-history" id="readingHistoryCarouselContainer" >
+        @foreach (var item in CarouselItems)
+        {
+            <div class="carousel-slide-reading-history " >
+                <ReadingHistoryCarousel BookName="@item.Caption" ImageUrl="@item.Image" AlternativeText="@item.AltText" />
+            </div>
+        }
+    </div>
+
+    <button class="prev-reading-history" id="reading-history-left-button" style="display: none;" @onclick="MovePrev">❮</button>
+    <button class="next-reading-history" id="next-reading-history" @onclick="MoveNext">❯</button>
+</div>
+
+
+@code {
+    public List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>
+    {
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter1" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings2", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry 3", Caption = "Harry Potter" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings 4", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter 5" },
+        new CarouselItemModel { Image = "/images/lord-of-the-rings-book-cover.jpg", AltText = "lord of the rings 6", Caption = "Lord of the Rings" },
+        new CarouselItemModel { Image = "/images/harry-potter-book-cover.jpg", AltText = "harry", Caption = "Harry Potter 7" }
+    };
+
+    public class CarouselItemModel
+    {
+        public string Image { get; set; }
+        public string Caption { get; set; }
+        public string AltText { get; set; }
+    }
+
+    private async Task MoveNext()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlideleftright", 1);
+    }
+
+    private async Task MovePrev()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlideleftright", -1);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // await JSRuntime.InvokeVoidAsync("initializeCarouselReadingHistory");
+        }
+    }
+}

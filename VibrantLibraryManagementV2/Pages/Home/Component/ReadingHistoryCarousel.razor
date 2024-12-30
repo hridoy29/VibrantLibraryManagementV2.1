@@ -1,0 +1,30 @@
+﻿<head>
+    <link rel="stylesheet" href="/css/ReadingHistoryCarousel.css" />
+</head>
+
+<div class="bookcard-left-right">
+    <img class="book-image-left-right" src="@ImageUrl" alt="@AlternativeText">
+    <div class="detail-container-ms pt-2">
+        <h6 class="interest-alert-book-name">
+            @BookName
+        </h6>
+        <p class="autor-interest-alert-left-right text-muted">by J.K Rowling</p>
+        <p class="autor-interest-alert-left-right-link ">You rate this book</p>
+        <div class="ratings-container">
+            <SfRating Value="4.5"></SfRating>
+            <span>&nbsp; 4.5/5</span>
+        </div>
+        <div class="mt-3">
+            <img src=".././icons/share.png" class="icon" style="width: 10px; height: 10px;"/> <span class="share-reading-history-card">Share</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string BookName { get; set; }
+    [Parameter]
+    public string ImageUrl { get; set; }
+    [Parameter]
+    public string AlternativeText { get; set; }
+}

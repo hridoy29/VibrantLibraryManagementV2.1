@@ -6,7 +6,7 @@
     width: 47px;
     height: 100%;
     z-index: 1;
-    background: linear-gradient(to right, rgb(255 255 255 / 62%) 25%, rgb(255 255 255 / 21%) 12%, rgb(255 255 255 / 15%) 87%), rgb(255 255 255 / 18%);
+    background: linear-gradient(to right, rgb(255 255 255 / 62%) 25%, rgb(255 255 255 / 21%) 12%, rgb(255 255 255 / 15%) 87%), rgb(255 255 255 / 12%);
     box-shadow: 18px 0 12px -2px rgb(255 255 255 / 25%);
 }
 

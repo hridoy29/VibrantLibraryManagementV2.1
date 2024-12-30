@@ -1,0 +1,104 @@
+﻿@inject IJSRuntime JSRuntime
+@inject IInterestAlerts interestAlerts
+
+<head>
+    <link rel="stylesheet" href="/css/InterestAlert.css" />
+    <script type="text/javascript" src="/scripts/InterestAlerts.js"></script>
+    <script type="text/javascript" src="/scripts/initializeInterestAlertsCarousel.js"></script>
+</head>
+
+<div style="display: @(LoadingDelay ? "none" : "block")">
+    <div class="interest-alert-title-1">
+        <h3>Interest alerts</h3>
+        <p style="margin: 0px; cursor: pointer;">View all</p>
+    </div>
+
+    <div class="interest-alerts-main-container-u">
+        <div class="blur-wrapper" id="blur-wrapper" style="display: none;"></div>
+        <div class="carousel-interest-alerts-u" id="carouselContainer-interest-alerts">
+            @if (isLoading)
+            {
+                <div>
+                    <div id="container">
+                        <SfSpinner @bind-Visible="@VisibleProperty">
+                        </SfSpinner>
+                    </div>
+                </div>
+            }
+            else
+            {
+                if (interestAlartsData.Response is not null)
+                {
+                    @foreach (var item in interestAlartsData.Response.Docs)
+                    {
+                        <div class="carousel-slide-u">
+                            <BookCard BookName="@item.Title" ImageUrl="@item.BookCover" Author="@item.Author" Ratings="@item.AvgRatings" />
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <div class="blur-wrapper-right"
+             id="blur-wrapper-right"></div>
+
+        <button class="prev-interest-alerts" id="prev-interest-alerts" @onclick="MovePrev" style="display: none;">❮</button>
+        <button class="next-interest-alerts" id="next-interest-alerts" @onclick="MoveNext">❯</button>
+    </div>
+
+    <div style="padding-bottom: 40px;"></div>
+</div>
+
+@code {
+    private SearchResponse interestAlartsData = new SearchResponse();
+    private bool isLoading = true;
+    private string errorMessage = string.Empty;
+    private bool VisibleProperty { get; set; } = true;
+    [Parameter]
+    public bool LoadingDelay { get; set; }
+
+    private bool isInitialized = false;
+    private string token = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeInterestAlertsCarousel");
+        }
+
+        if (firstRender && !isInitialized)
+        {
+            isInitialized = true;
+            try
+            {
+                token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    throw new UnauthorizedAccessException("JWT token not found.");
+                }
+                var response = await interestAlerts.FetchInterestAlerts(token);
+                interestAlartsData = response;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            finally
+            {
+                isLoading = false;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task MoveNext()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlide", 1);
+    }
+
+    private async Task MovePrev()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlide", -1);
+    }
+
+}

@@ -1,0 +1,19 @@
+﻿@using VibrantLibraryManagementV2.ServiceLayer.Services.ImagesService
+@inject IJSRuntime JSRuntime
+@inject IImagesServices ImagesServices
+
+<head>
+    <link rel="stylesheet" href="/css/EmptyBookCard.css" />
+</head>
+
+<div class="bookcard">
+    <img class="book-image" style="opacity: 0;" src="/images/NoImageFound.png">
+    <div class="detail-container-ms">
+        <p class="interest-alert-book-name-first">
+        </p>
+        <p class="autor-interest-alert"></p>
+        <div class="ratings-container">
+            <span>&nbsp; </span>
+        </div>
+    </div>
+</div>

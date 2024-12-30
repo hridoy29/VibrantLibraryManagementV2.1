@@ -6,10 +6,15 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.IdentityModel.Tokens;
 using Syncfusion.Blazor;
 using VibrantLibraryManagementV2;
-using VibrantLibraryManagementV2.Data;
 using VibrantLibraryManagementV2.HelperServices;
+using VibrantLibraryManagementV2.HelperServices.SessionService;
 using VibrantLibraryManagementV2.ServiceLayer.Services;
-using VibrantLibraryManagementV2.Services;
+using VibrantLibraryManagementV2.ServiceLayer.Services.ImagesService;
+//using VibrantLibraryManagementV2.ServiceLayer.Services.InterestService;
+using VibrantLibraryManagementV2.ServiceLayer.Services.Logout_Service;
+using VibrantLibraryManagementV2.ServiceLayer.Services.MightBeInterested_Service;
+using VibrantLibraryManagementV2.ServiceLayer.Services.ProfileService;
+using VibrantLibraryManagementV2.ServiceLayer.Services.RecomendedService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +23,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 RequestLocalizationOptions GetLocalizationOption()

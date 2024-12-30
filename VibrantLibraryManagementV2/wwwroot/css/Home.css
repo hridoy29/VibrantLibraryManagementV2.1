@@ -1,0 +1,25 @@
+﻿.main-container {
+    display: flex;
+    flex-direction: column;
+    background: rgb(245, 249, 245);
+}
+
+.header {
+    margin: 0px auto;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    background: white;
+}
+
+.reading-history {
+    width: 100%; 
+    background: white; 
+    padding-top: 1rem; 
+    padding-bottom: 80px;
+}
+
+.footer {
+    width: 100%;
+    padding: 30px 0px;
+    text-align: center;
+}

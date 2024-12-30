@@ -1,0 +1,127 @@
+﻿@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject CustomAuthenticationStateProvider _customAuthProviders
+@inject IJSRuntime JSRuntime
+@inject ILogOutService logoutservices
+
+<div class="navbar-custom" style="display: @(isLoading ? "none" : "")">
+    <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
+    <div style="display: flex; gap: 40px;">
+        <div class="search-box" @onclick="searchBoxClicked">
+            <input type="button" value="Search" />
+            <img src="/icons/search.png" class="search-icon-navbar" />
+        </div>
+
+        <ul class="navbar-ul">
+            <li>Home</li>
+            <li>Interest</li>
+            <li>Topics</li>
+            <li>My Loans</li>
+            <li>
+                <div class="user">
+                    <div class="e-avatar e-avatar-small e-avatar-circle image">
+                        <img src="/images/user.jpg" style="width: 40px; height: 35px;" />
+                    </div>
+                    <p style="margin: 0px;">@(AuthUser.FirstName +" "+ AuthUser.LastName)</p>
+
+                    <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
+
+                    <div class="options-box" style="display: @(showOption ? "block" : "")">
+                        <p>Loans</p>
+                        <p>Reservations</p>
+                        <p>Interest Profile</p>
+                        <p @onclick="LogOut">Log Out</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <ChooseLanguage />
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="navbar-menu">
+        <img src="/icons/search.png" class="search-icon-navbar-mobile" @onclick="searchBoxClicked" />
+        <div class="humberger-menu">
+            <SfIcon Name="IconName.Menu" @onclick="ShowMobileMenu"></SfIcon>
+        </div>
+    </div>
+
+    @* Nabar for mobile devices *@
+    <ul class="navbar-ul-mobile" style="display: @(showMobileMenu ? "block" : "")">
+        <li>Home</li>
+        <li>Interest</li>
+        <li>Topics</li>
+        <li>My Loans</li>
+        <li>
+            <div class="user">
+                <div class="e-avatar e-avatar-xsmall e-avatar-circle image avatar-navbar">
+                    <img src="/images/user.jpg" style="width: 25px;  height: 25px;" />
+                </div>
+                <p style="margin: 0px;">@(AuthUser.FirstName + " " + AuthUser.LastName)</p>
+                <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
+
+                <div class="options-box" style="display: @(showOption ? "block" : "")">
+                    <p>Loans</p>
+                    <p>Reservations</p>
+                    <p>Interest Profile</p>
+                    <p @onclick="LogOut">Log Out</p>
+                </div>
+            </div>
+        </li>
+        <li>
+            <ChooseLanguage />
+        </li>
+    </ul>
+</div>
+
+@code {
+    [CascadingParameter]
+    public User AuthUser { get; set; }
+    [Parameter] 
+    public EventCallback OnSearchBoxClicked { get; set; }
+    [Parameter]
+    public bool LoadingDelay { get; set; }
+    public bool showOption { get; set; } = false;
+    public bool showMobileMenu { get; set; } = false;
+    public bool isLoading = true;
+
+    private string token;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            isLoading=false;
+            StateHasChanged();
+        }
+       
+    }
+
+    private async Task LogOut()
+    {
+        token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+        var result = await logoutservices.LogOutAsync(token);
+        await _customAuthProviders.LogoutAsync();
+        _navigate.NavigateTo("/login", forceLoad: true);
+    }
+
+    private void ToggleShowOption()
+    {
+        showOption = !showOption;
+    }
+
+    private void ShowMobileMenu()
+    {
+        showMobileMenu = !showMobileMenu;
+    }
+
+    private void searchBoxClicked()
+    {
+        if (OnSearchBoxClicked.HasDelegate)
+        {
+            OnSearchBoxClicked.InvokeAsync(null);
+        }
+    }
+}

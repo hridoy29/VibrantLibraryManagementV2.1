@@ -1,13 +1,22 @@
 ﻿@inject IJSRuntime JSRuntime
 @inject IImagesServices ImageServices
 
-<CarouselItem>
+<CarouselItem Interval="@Interval">
     <div class="first">
-        <div class="second" style="background: radial-gradient(circle at right top, transparent 40%, rgb(255 255 255)), linear-gradient(to top, rgb(255 255 255), transparent), url(@BackgroundImage);">
+        <div class="second" style="background: radial-gradient(circle at right top, transparent 40%, rgb(255 255 255)), linear-gradient(to top, rgb(255 255 255), transparent), url(@ImageUrlFromAPI);">
             <h4 class="recomendation-text">Vibrant Recommended</h4>
             <figure class="img-container">
                 <div class="left-image-cu">
-                    <img src="@ImageUrlFromAPI" alt="@Title" style="height:100%;width:100%; border-radius: 20px;" />
+                    @if (ImageUrlFromAPI is null)
+                    {
+                        <div class="custom-book-image-container" style="width: 100%;">
+                            @((@GetFirstPart(Title).Length > 100) ? @GetFirstPart(Title).Substring(0, 100) + ".." : @GetFirstPart(Title))
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="@ImageUrlFromAPI" style="height:100%;width:100%; border-radius: 20px;" />
+                    }
                 </div>
                 <figcaption class="img-caption">
                     <div class="description">
@@ -40,25 +49,26 @@
 
 @code {
     [Parameter]
-    public string BackgroundImage { get; set; }
+    public string BackgroundImage { get; set; } = string.Empty;
     [Parameter]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     [Parameter]
-    public string Author { get; set; }
+    public string Author { get; set; } = string.Empty;
     [Parameter]
     public double Ratings { get; set; }
     [Parameter]
-    public string Summery { get; set; }
+    public string Summery { get; set; } = string.Empty;
     [Parameter]
-    public string BookCover { get; set; }
+    public string BookCover { get; set; } = string.Empty;
+    [Parameter]
+    public int Interval { get; set; }
 
-    public string ImageUrlFromAPI { get; set; }
+    public string ImageUrlFromAPI = "/images/NoImageFound.png";
 
-    string token = "";
+    string token = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-
         if (!string.IsNullOrEmpty(BookCover))
         {
             if (firstRender)
@@ -66,16 +76,14 @@
                 token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
                 var result = await ImageServices.GetImageUrl(BookCover, token);
                 ImageUrlFromAPI = result.FileUrl;
-                StateHasChanged();
+                await InvokeAsync(StateHasChanged);
             }
-           
         }
         else
         {
-            ImageUrlFromAPI = "File not found";
+            ImageUrlFromAPI = "";
         }
     }
-
 
     private string GetFirstPart(string title)
     {

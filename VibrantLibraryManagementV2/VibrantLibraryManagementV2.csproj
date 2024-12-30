@@ -7,8 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Remove="Pages\Component\CustomFooter.razor" />
-	  <Content Remove="Pages\Component\Footer.razor" />
 	  <Content Remove="wwwroot\scripts\ReadingHistory.js" />
 	</ItemGroup>
 
@@ -29,22 +27,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Pages\Component\CustomFooter.razor" />
-	  <None Include="Pages\Component\Footer.razor" />
 	  <None Include="wwwroot\scripts\ReadingHistory.js" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Component\Footer.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Pages\Component\Footer.razor" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\Home.css" />
 	  <_ContentIncludedByDefault Remove="wwwroot\scripts\ReadingHistory.js" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="Pages\Component\EmptyCard.razor">
+	  <Content Update="Pages\Home\Component\EmptyCard.razor">
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	  </Content>
 	</ItemGroup>

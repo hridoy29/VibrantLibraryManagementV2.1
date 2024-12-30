@@ -1,0 +1,73 @@
+﻿@page "/home"
+@* @rendermode InteractiveServer *@
+@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject CustomAuthenticationStateProvider _customAuthProvider
+@using Component
+
+<PageTitle>Home</PageTitle>
+
+<div class="main-container">
+    <header class="header">
+        <Navbar OnSearchBoxClicked="ToggleSearchSection" LoadingDelay="@artificialDelay" />
+        <Search ShowSearchSection="@showingSearchSection" LoadingDelay="@artificialDelay" />
+    </header>
+
+    <RecommentedCarousel LoadingDelay="@artificialDelay" />
+
+    <InterestAlert LoadingDelay="@artificialDelay" />
+
+    <MightBeInterested LoadingDelay="@artificialDelay" />
+
+    <div class="reading-history" style="display: @(artificialDelay ? "none" : "")">
+        <ReadingHistory />
+    </div>
+
+    <div class="footer" style="display: @(artificialDelay ? "none" : "")">
+        <Footer />
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public User AuthUser { get; set; }
+    public bool artificialDelay = true;
+    public bool artificialDelayLonger = true;
+    public bool showingSearchSection { get; set; } = false;
+    [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (!authState.User.Identity.IsAuthenticated)
+            {
+                _navigate.NavigateTo("/login");
+            }
+            else
+            {
+                _navigate.NavigateTo("/home");
+            }
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(300);
+        artificialDelay = false;
+        StateHasChanged();
+    }
+
+    private async Task LogOut()
+    {
+        await _customAuthProvider.LogoutAsync();
+        _navigate.NavigateTo("/login");
+    }
+
+    private void ToggleSearchSection()
+    {
+        showingSearchSection = !showingSearchSection;
+        StateHasChanged();
+    }
+}

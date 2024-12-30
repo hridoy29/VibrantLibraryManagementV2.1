@@ -1,0 +1,26 @@
+﻿.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 5px 0px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+}
+
+.divider:not(:empty)::before {
+    margin-right: 10px;
+}
+
+.divider:not(:empty)::after {
+    margin-left: 10px;
+}
+
+.divider span {
+    font-size: 14px;
+    color: #888;
+}

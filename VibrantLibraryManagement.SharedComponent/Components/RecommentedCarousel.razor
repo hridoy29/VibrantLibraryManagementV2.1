@@ -6,8 +6,12 @@
     <link rel="stylesheet" href="/css/Carousel.css" />
 </head>
 
-<div class="control-container">
-    <SfCarousel AutoPlay="false" ShowIndicators="false">
+<div class="control-container" style="display: @(LoadingDelay ? "none" : "")">
+    <SfCarousel 
+        AutoPlay="false" 
+        ShowIndicators="false" 
+        @bind-SelectedIndex="@CurrentIndex"
+    >
         @if (isLoading)
         {
             <div>
@@ -23,14 +27,15 @@
             {
                 @foreach (var doc in recommends.Response.Docs)
                 {
-                    <CustomCarouselItem BackgroundImage="@backgroundImage" Title="@doc.Title" Author="@doc.Author" Summery="@doc.Synopsis[0]" BookCover="@(doc.BookCover is null ? "/images/NoImageFound.png" : doc.BookCover)" />
+                    <CustomCarouselItem 
+                        BackgroundImage="@backgroundImage" 
+                        Title="@doc.Title" 
+                        Author="@doc.Author" 
+                        Summery="@doc.Synopsis[0]" 
+                        BookCover="@doc.BookCover"
+                        Interval="3000"
+                    />
                 }
-            }
-            else
-            {
-                <div style="width: 100%">
-                    <h3 style="color: red; text-align: center;">Not getting any Recommendation data from API</h3>
-                </div>
             }
         }
     </SfCarousel>
@@ -40,8 +45,11 @@
     private SearchResponse recommends = new SearchResponse();
     private bool isLoading = true;
     private string errorMessage = string.Empty;
-    public string ImageUrlFromAPI { get; set; }
+    public string ImageUrlFromAPI { get; set; } = string.Empty;
     private bool VisibleProperty { get; set; } = true;
+    [Parameter]
+    public bool LoadingDelay { get; set; }
+    int CurrentIndex = 0;
 
     public string backgroundImage { get; set; } = "images/harry-potter-free.jpg";
     public string backgroundImage1 { get; set; } = "images/harry-potter-book-cover.jpg";
@@ -64,10 +72,7 @@
 
                 var response = await RecommendedService.FetchEditorsPicksAsync(token);
                 recommends = response;
-                // if(recommends.Response is null)
-                // {
-                //     await _logOutService.LogOutAsync(token);
-                // }
+                await InvokeAsync(StateHasChanged);
             }
             catch (Exception ex)
             {
@@ -79,5 +84,7 @@
                 StateHasChanged();
             }
         }
+
+        StateHasChanged();
     }
 }
