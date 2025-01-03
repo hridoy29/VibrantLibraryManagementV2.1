@@ -48,7 +48,6 @@
     height: 16px !important;
     display: inline-block !important;
     margin-right: 15px;
-    background: rgba(3, 5, 3, .5);
 }
 
 .search-icon {
@@ -93,4 +92,75 @@
 
 .e-tab-text {
     color: black !important;
+}
+
+ul#myTab {
+    border: none !important;
+}
+
+.nav-tabs .nav-link.active {
+    border-left: none !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #089212 !important;
+}
+
+ul#myTab .nav-item .nav-tabs .nav-link:focus,
+ul#myTab .nav-item .nav-tabs .nav-link:hover {
+    border: none !important;
+}
+
+.nav-tabs .nav-link {
+    font-weight: 500 !important;
+    color: black !important;
+    border: none !important;
+}
+.nav-link:focus-visible {
+    outline: 0;
+    box-shadow: none !important;
+}
+.nav-tabs {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap !important;
+}
+
+.scrollable-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px; 
+    flex-wrap:nowrap !important;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+.nav-link {
+    border-bottom: none;
+    padding: 10px 15px;
+}
+
+    .nav-link.active {
+        border-bottom: 2px solid #007bff;
+    }
+
+
+.nav-tabs {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.scrollable-tabs::-webkit-scrollbar {
+    height: 0px;
+}
+
+.scrollable-tabs::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 0px;
+}
+
+.scrollable-tabs::-webkit-scrollbar-track {
+    background: transparent;
 }

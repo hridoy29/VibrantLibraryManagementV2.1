@@ -1,13 +1,7 @@
 ﻿@inject IJSRuntime JSRuntime
 @inject IInterestAlerts interestAlerts
 
-<head>
-    <link rel="stylesheet" href="/css/InterestAlert.css" />
-    <script type="text/javascript" src="/scripts/InterestAlerts.js"></script>
-    <script type="text/javascript" src="/scripts/initializeInterestAlertsCarousel.js"></script>
-</head>
-
-<div style="display: @(LoadingDelay ? "none" : "block")">
+<div style="display: @(LoadingDelay ? "none" : "block");">
     <div class="interest-alert-title-1">
         <h3>Interest alerts</h3>
         <p style="margin: 0px; cursor: pointer;">View all</p>
@@ -61,11 +55,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            await JSRuntime.InvokeVoidAsync("initializeInterestAlertsCarousel");
-        }
-
         if (firstRender && !isInitialized)
         {
             isInitialized = true;
@@ -88,6 +77,7 @@
                 isLoading = false;
                 StateHasChanged();
             }
+            await JSRuntime.InvokeVoidAsync("initializeInterestAlertsCarousel");
         }
     }
 

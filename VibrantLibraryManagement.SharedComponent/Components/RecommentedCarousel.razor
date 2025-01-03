@@ -7,41 +7,42 @@
 </head>
 
 <div class="control-container" style="display: @(LoadingDelay ? "none" : "")">
-    <SfCarousel 
-        AutoPlay="false" 
-        ShowIndicators="false" 
-        @bind-SelectedIndex="@CurrentIndex"
-    >
+    <SfCarousel AutoPlay="false"
+                ShowIndicators="false"
+                EnableTouchSwipe="true"
+                SwipeMode="CarouselSwipeMode.Touch">
         @if (isLoading)
         {
-            <div>
-                <div id="container">
-                    <SfSpinner @bind-Visible="@VisibleProperty">
-                    </SfSpinner>
+            <CarouselItem>
+                <div>
+                    <div id="container">
+                        <SfSpinner @bind-Visible="@VisibleProperty">
+                        </SfSpinner>
+                    </div>
                 </div>
-            </div>
+            </CarouselItem>
         }
         else
         {
-            if(recommends.Response is not null)
+            if (recommends.Response is not null)
             {
                 @foreach (var doc in recommends.Response.Docs)
                 {
-                    <CustomCarouselItem 
-                        BackgroundImage="@backgroundImage" 
-                        Title="@doc.Title" 
-                        Author="@doc.Author" 
-                        Summery="@doc.Synopsis[0]" 
-                        BookCover="@doc.BookCover"
-                        Interval="3000"
-                    />
+                    <CustomCarouselItem BackgroundImage="@backgroundImage"
+                                        Title="@doc.Title"
+                                        Author="@doc.Author"
+                                        Summery="@doc.Synopsis[0]"
+                                        BookCover="@doc.BookCover" 
+                                        Interval="3000"/>
                 }
             }
         }
     </SfCarousel>
+
+    
 </div>
 
-@code{
+@code {
     private SearchResponse recommends = new SearchResponse();
     private bool isLoading = true;
     private string errorMessage = string.Empty;

@@ -14,6 +14,7 @@ using VibrantLibraryManagementV2.ServiceLayer.Services.ImagesService;
 using VibrantLibraryManagementV2.ServiceLayer.Services.Logout_Service;
 using VibrantLibraryManagementV2.ServiceLayer.Services.MightBeInterested_Service;
 using VibrantLibraryManagementV2.ServiceLayer.Services.ProfileService;
+using VibrantLibraryManagementV2.ServiceLayer.Services.ReadingHistoryService;
 using VibrantLibraryManagementV2.ServiceLayer.Services.RecomendedService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,6 +57,7 @@ builder.Services.AddScoped<IInterestAlerts, InterestAlerts>();
 builder.Services.AddScoped<IMightBeInterested, MightBeInterested>();
 builder.Services.AddScoped<IImagesServices, ImagesServices>();
 builder.Services.AddScoped<ILogOutService, LogOutService>();
+builder.Services.AddScoped<IReadingHistory, ReadingHistoryServices>();
 
 builder.Services.AddScoped<TokenService>();
 

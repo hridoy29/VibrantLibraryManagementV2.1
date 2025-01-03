@@ -19,5 +19,11 @@ namespace VibrantLibraryManagementV2.Core.Models.ResponseModels
         public string BibCreatedOn { get; set; }
         public double AvgRatings { get; set; }
         public int NoReviews { get; set; }
+
+        public List<string>? Subject { get; set; }
+        public string? Eresourcetype { get; set; }
+        public int? ItemId { get; set; }
+        public string? Lastitemcreatedon { get; set; }
+        public List<string>? Isbn { get; set; }
     }
 }

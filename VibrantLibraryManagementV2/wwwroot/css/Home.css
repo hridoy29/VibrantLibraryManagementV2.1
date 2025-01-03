@@ -1,4 +1,7 @@
-﻿.main-container {
+﻿body {
+    user-select: none;
+}
+.main-container {
     display: flex;
     flex-direction: column;
     background: rgb(245, 249, 245);
@@ -11,10 +14,22 @@
     background: white;
 }
 
+.recomendation-section{
+    width: 100% !important;
+}
+
+.interest-alert-section-main {
+    width: 100% !important;
+}
+
+.might-be-interesed-section{
+    width: 100% !important;
+}
+
 .reading-history {
-    width: 100%; 
-    background: white; 
-    padding-top: 1rem; 
+    width: 100%;
+    background: white;
+    padding-top: 1rem;
     padding-bottom: 80px;
 }
 

@@ -34,7 +34,6 @@
     width: 98%;
     position: relative;
     padding: 0px 100px;
-    transition: scroll-left 0.3s ease;
 }
 
 .carousel-interest-alerts-u {
@@ -69,7 +68,7 @@
     margin: 10px 90px;
     font-weight: bold;
     font-size: 2em;
-    color: black;
+    color: lightgray;
 }
 
 .prev-interest-alerts {
@@ -109,11 +108,21 @@
     align-items: center;
     font-size: 12px;
 }
+@media only screen and (max-width: 860px) {
+    .interest-alerts-main-container-u, .interest-alert-title-1 {
+        width: 97vw;
+    }
+}
 
 @media only screen and (max-width: 760px) {
-    .interest-alerts-main-container-u, .interest-alert-title-1 {
-        padding: 20px;
+    .interest-alerts-main-container-u {
+        padding: 0px 20px 20px 20px;
         width: 96vw;
+    }
+
+    .interest-alert-title-1 {
+        padding: 20px;
+        width: 100%;
     }
 
     .prev-interest-alerts {

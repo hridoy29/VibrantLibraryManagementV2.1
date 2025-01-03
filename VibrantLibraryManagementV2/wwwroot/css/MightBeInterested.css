@@ -49,6 +49,7 @@ a {
     border-radius: 10px;
     padding: 30px 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
 }
 
 .items-details {
@@ -65,11 +66,11 @@ a {
     border-radius: 0.5em;
 }
 
-    .interest-book-cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.interest-book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .book-title-unique {
     font-weight: 600;
@@ -106,7 +107,7 @@ a {
 }
 
 .prev2 {
-    left: 0px;
+    left: -10px;
 }
 
 .next2 {
@@ -118,8 +119,63 @@ a {
     flex-direction: row;
     gap: 10px;
     overflow: hidden;
-    min-height: 404px;
+    min-height: 410px;
     padding-top: 50px;
+    width: 50vw;
+}
+
+@media only screen and (max-width: 1700px) {
+    .carousel-items-interested {
+        width: 44vw;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .carousel-items-interested {
+        width: 43vw;
+    }
+}
+
+@media only screen and (max-width: 1500px) {
+    .carousel-items-interested{
+        width: 40vw;
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .carousel-items-interested {
+        width: 35vw;
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .carousel-items-interested {
+        width: 34vw;
+    }
+}
+
+@media only screen and (max-width: 1270px) {
+    .carousel-items-interested {
+        width: 26vw;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .carousel-items-interested {
+        width: 27vw;
+    }
+}
+
+@media only screen and (max-width: 1160px) {
+    .carousel-items-interested {
+        width: 23vw;
+    }
+}
+
+@media only screen and (max-width: 1110px) {
+    .carousel-items-interested {
+        width: 20vw;
+    }
 }
 
 @media only screen and (max-width: 1070px) {
@@ -128,14 +184,11 @@ a {
         justify-content: center;
         align-items: center;
         padding: 0px 100px;
+        gap: 0px;
     }
 
     .carousel-items-interested {
-        width: min(580px, 100%);
-    }
-
-    .carousel-container-interested {
-        gap: 0px;
+        width: 70vw;
     }
 
     .carousel-items-interested {
@@ -144,6 +197,13 @@ a {
     .book-info-container {
         padding-right: 20px;
         gap: 10px;
+    }
+}
+
+@media only screen and (max-width: 820px) {
+    .carousel-container-interested {
+        width: 96vw;
+        margin: 0px auto;
     }
 }
 
@@ -157,7 +217,7 @@ a {
     }
 
     .slider-display {
-        width: 100%;
+        width: 90vw;
         height: 20rem;
     }
 
@@ -165,10 +225,6 @@ a {
         padding-left: 0;
         align-items: center;
         width: 320px;
-    }
-
-    .carousel-items-interested {
-        width: calc(100vw - 60px);
     }
 
     .book-info-container {
@@ -187,27 +243,7 @@ a {
     }
 }
 
-.custom-book-image-container-might-interest {
-    background: gray;
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-    font-weight: bold;
-    text-align: center;
-
-    padding: 10px 20px;
-    overflow: hidden;
-}
-
 @media only screen and (max-width: 553px) {
-    .slider-display {
-        width: 100vw;
-    }
-
     .interested-alert-title {
         padding: 30px 20px;
     }
@@ -233,7 +269,7 @@ a {
     }
 
     .book-title-unique {
-        font-size: 14px;
+        font-size: 11px;
         width: 140px;
         margin: 0;
         padding: 0;
@@ -243,11 +279,12 @@ a {
         padding: 10px;
         padding: 0;
         margin: 0;
+        font-size: 9px;
     }
 
     .details-title, .summery-text-unique {
         width: 150px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .summery-text-unique {
@@ -292,11 +329,24 @@ a {
         font-size: 14px;
     }
 
-    .prev2{
+    .prev2 {
         left: -15px;
     }
 
     .items-details {
         gap: 5px;
     }
+}
+
+.custom-book-image-container-might-interest {
+    background: gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 20px;
+    overflow: hidden;
 }

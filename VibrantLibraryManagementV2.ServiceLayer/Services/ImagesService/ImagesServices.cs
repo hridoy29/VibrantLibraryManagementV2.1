@@ -35,6 +35,11 @@ namespace VibrantLibraryManagementV2.ServiceLayer.Services.ImagesService
                     throw new UnauthorizedAccessException("JWT token is not provided.");
                 }
 
+                if (string.IsNullOrEmpty(ImagePath))
+                {
+                    return new ImageModel();
+                }
+
                 int firstSlashIndex = ImagePath.IndexOf('/', 1);
                 int secondSlashIndex = ImagePath.IndexOf('/', firstSlashIndex + 1);
                 int thirdSlashIndex = ImagePath.IndexOf('/', secondSlashIndex + 1);

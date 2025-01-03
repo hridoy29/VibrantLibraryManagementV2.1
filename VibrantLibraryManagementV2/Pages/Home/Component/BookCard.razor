@@ -2,10 +2,6 @@
 @inject IJSRuntime JSRuntime
 @inject IImagesServices ImagesServices
 
-<head>
-    <link rel="stylesheet" href="/css/BookCard.css" />
-</head>
-
 <div class="bookcard">
     @if (ImageUrlFromAPI != null)
     {
@@ -17,11 +13,13 @@
             @((BookName.Length > 100) ? BookName.Substring(0, 100) + ".." : BookName)
         </div>
     }
-    
+
     <div class="detail-container-ms">
-        <p class="interest-alert-book-name-first" title="@BookName">
-            @((BookName.Length > 50) ? BookName.Substring(0, 44) + ".." : BookName)
-        </p>
+        <SfTooltip ID="Tooltip" Target="#btn" Content="@BookName">
+            <p ID="btn" Content="Show Tooltip" class="interest-alert-book-name-first" title="@BookName">
+                @((BookName.Length > 50) ? BookName.Substring(0, 44) + ".." : BookName)
+            </p>
+        </SfTooltip>
         <p class="autor-interest-alert">@Author</p>
         <div class="ratings-container">
             <SfRating Value="@Ratings" ReadOnly></SfRating>
@@ -47,7 +45,7 @@
         if (!string.IsNullOrEmpty(ImageUrl))
         {
             token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
-            var result  = await ImagesServices.GetImageUrl(ImageUrl, token);
+            var result = await ImagesServices.GetImageUrl(ImageUrl, token);
             ImageUrlFromAPI = result.FileUrl;
         }
         else

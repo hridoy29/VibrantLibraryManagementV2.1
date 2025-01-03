@@ -7,7 +7,7 @@
             <h4 class="recomendation-text">Vibrant Recommended</h4>
             <figure class="img-container">
                 <div class="left-image-cu">
-                    @if (ImageUrlFromAPI is null)
+                    @if (string.IsNullOrEmpty(ImageUrlFromAPI))
                     {
                         <div class="custom-book-image-container" style="width: 100%;">
                             @((@GetFirstPart(Title).Length > 100) ? @GetFirstPart(Title).Substring(0, 100) + ".." : @GetFirstPart(Title))
@@ -63,7 +63,7 @@
     [Parameter]
     public int Interval { get; set; }
 
-    public string ImageUrlFromAPI = "/images/NoImageFound.png";
+    public string ImageUrlFromAPI = string.Empty;
 
     string token = string.Empty;
 

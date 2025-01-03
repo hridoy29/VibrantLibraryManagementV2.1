@@ -23,11 +23,11 @@
 
 </CascadingAuthenticationState>
 
-<VibrantLibraryManagementV2.Pages.Shared.AuthComponent.AuthInitializer/>
+<VibrantLibraryManagementV2.Pages.Shared.AuthComponent.AuthInitializer />
 
 @code {
     private bool _isInitialized;
-    private User AuthUser=new();
+    private User AuthUser = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -55,6 +55,7 @@
                 if (obj == null)
                 {
                     await PerformLogout(token);
+                    return;
                 }
                 try
                 {
@@ -64,14 +65,21 @@
                 {
                     await PerformLogout(token);
                 }
-              
+
             }
+        }
+        else
+        {
+            await _customAuthProviders.LogoutAsync();
         }
     }
 
     private async Task PerformLogout(string token)
     {
-        var result = await logoutservices.LogOutAsync(token);
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var result = await logoutservices.LogOutAsync(token);
+        }
         await _customAuthProviders.LogoutAsync();
         _navigate.NavigateTo("/login", forceLoad: true);
     }

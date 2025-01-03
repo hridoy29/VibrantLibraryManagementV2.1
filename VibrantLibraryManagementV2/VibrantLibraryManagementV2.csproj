@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 	  <Content Remove="wwwroot\scripts\ReadingHistory.js" />
+	  <Content Remove="wwwroot\scripts\Search.js" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,11 +29,14 @@
 
 	<ItemGroup>
 	  <None Include="wwwroot\scripts\ReadingHistory.js" />
+	  <None Include="wwwroot\scripts\Search.js" />
+	  <None Include="wwwroot\scripts\ReadingHistory\ReadingHistory.js" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <_ContentIncludedByDefault Remove="wwwroot\css\Home.css" />
 	  <_ContentIncludedByDefault Remove="wwwroot\scripts\ReadingHistory.js" />
+	  <_ContentIncludedByDefault Remove="wwwroot\scripts\Search.js" />
 	</ItemGroup>
 
 	<ItemGroup>

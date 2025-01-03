@@ -5,7 +5,8 @@
 @inject ILogOutService logoutservices
 
 <div class="navbar-custom" style="display: @(isLoading ? "none" : "")">
-    <img src=".././images/VibrantLogoBgRemove.png" class="logo" />
+    @* Vibrant Logo and right side navbar *@
+    <img src=".././images/VibrantLogoBgRemove.png" @onclick="GoToHome" class="logo" />
     <div style="display: flex; gap: 40px;">
         <div class="search-box" @onclick="searchBoxClicked">
             <input type="button" value="Search" />
@@ -22,7 +23,7 @@
                     <div class="e-avatar e-avatar-small e-avatar-circle image">
                         <img src="/images/user.jpg" style="width: 40px; height: 35px;" />
                     </div>
-                    <p style="margin: 0px;">@(AuthUser.FirstName +" "+ AuthUser.LastName)</p>
+                    <p style="margin: 0px;">@(AuthUser.FirstName + " " + AuthUser.LastName)</p>
 
                     <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
 
@@ -41,10 +42,17 @@
 
     </div>
 
+    @* Search and Humburger Manu icon-only from mobile *@
     <div class="navbar-menu">
-        <img src="/icons/search.png" class="search-icon-navbar-mobile" @onclick="searchBoxClicked" />
+        <div>
+            <img 
+                src="/icons/search.png" 
+                class="search-icon-navbar-mobile" 
+                @onclick="searchBoxClicked" 
+            />
+        </div>
         <div class="humberger-menu">
-            <SfIcon Name="IconName.Menu" @onclick="ShowMobileMenu"></SfIcon>
+            <SfIcon Name="IconName.Menu" Style="font-size: 38px;" @onclick="ShowMobileMenu"></SfIcon>
         </div>
     </div>
 
@@ -79,7 +87,7 @@
 @code {
     [CascadingParameter]
     public User AuthUser { get; set; }
-    [Parameter] 
+    [Parameter]
     public EventCallback OnSearchBoxClicked { get; set; }
     [Parameter]
     public bool LoadingDelay { get; set; }
@@ -93,10 +101,10 @@
     {
         if (firstRender)
         {
-            isLoading=false;
+            isLoading = false;
             StateHasChanged();
         }
-       
+
     }
 
     private async Task LogOut()
@@ -115,6 +123,7 @@
     private void ShowMobileMenu()
     {
         showMobileMenu = !showMobileMenu;
+        showOption = false;
     }
 
     private void searchBoxClicked()
@@ -123,5 +132,13 @@
         {
             OnSearchBoxClicked.InvokeAsync(null);
         }
+
+        showOption = false;
+        showMobileMenu = false;
+    }
+
+    private void GoToHome()
+    {
+        _navigate.NavigateTo("/home");
     }
 }

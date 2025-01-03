@@ -91,18 +91,23 @@
     font-size: 12px;
 }
 
+@media only screen and (max-width: 830px) {
+    .reading-history-main-container, .reading-history-title {
+        width: 97vw;
+    }
+}
 
 @media only screen and (max-width: 760px) {
     .reading-history-main-container, .reading-history-title {
         padding: 20px;
-        width: 96vw;
+        width: 95vw;
     }
     .prev-reading-history {
-        left: -15px !important;
+        left: -20px !important;
         margin: 20px;
     }
     .next-reading-history {
-        right: -15px;
+        right: -20px;
         margin: 20px;
     }
     .reading-history-main-container{

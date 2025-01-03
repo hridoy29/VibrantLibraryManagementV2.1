@@ -8,24 +8,30 @@
 <PageTitle>Home</PageTitle>
 
 <div class="main-container">
-    <header class="header">
+    <header class="header-section">
         <Navbar OnSearchBoxClicked="ToggleSearchSection" LoadingDelay="@artificialDelay" />
         <Search ShowSearchSection="@showingSearchSection" LoadingDelay="@artificialDelay" />
     </header>
 
-    <RecommentedCarousel LoadingDelay="@artificialDelay" />
+    <section class="recomendation-section">
+        <RecommentedCarousel LoadingDelay="@artificialDelay" />
+    </section>
 
-    <InterestAlert LoadingDelay="@artificialDelay" />
+    <section class="interest-alert-section-main">
+        <InterestAlert LoadingDelay="@artificialDelay" />
+    </section>
 
-    <MightBeInterested LoadingDelay="@artificialDelay" />
+    <section class="might-be-interesed-section" style="background: red;">
+        <MightBeInterested LoadingDelay="@artificialDelay" />
+    </section>
 
-    <div class="reading-history" style="display: @(artificialDelay ? "none" : "")">
+    <section class="reading-history" style="display: @(artificialDelay ? "none" : "")">
         <ReadingHistory />
-    </div>
+    </section>
 
-    <div class="footer" style="display: @(artificialDelay ? "none" : "")">
+    <footer class="footer" style="display: @(artificialDelay ? "none" : "")">
         <Footer />
-    </div>
+    </footer>
 </div>
 
 @code {
@@ -44,20 +50,16 @@
             {
                 _navigate.NavigateTo("/login");
             }
-            else
-            {
-                _navigate.NavigateTo("/home");
-            }
-
+            artificialDelay = false;
+            StateHasChanged();
         }
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Delay(300);
-        artificialDelay = false;
-        StateHasChanged();
-    }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     artificialDelay = false;
+    //     StateHasChanged();
+    // }
 
     private async Task LogOut()
     {
