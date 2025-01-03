@@ -18,16 +18,17 @@
             <li>Interest</li>
             <li>Topics</li>
             <li>My Loans</li>
-            <li>
+            <li @onclick="ToggleShowOption" id="optionBoxLI">
                 <div class="user">
                     <div class="e-avatar e-avatar-small e-avatar-circle image">
                         <img src="/images/user.jpg" style="width: 40px; height: 35px;" />
                     </div>
                     <p style="margin: 0px;">@(AuthUser.FirstName + " " + AuthUser.LastName)</p>
+                    <div style="margin-top: 5px;">
+                        <SfIcon Name="IconName.ChevronDownFill"></SfIcon>
+                    </div>
 
-                    <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
-
-                    <div class="options-box" style="display: @(showOption ? "block" : "")">
+                    <div class="options-box" id="optionsBox" style="display: @(showOption ? "block" : "")">
                         <p>Loans</p>
                         <p>Reservations</p>
                         <p>Interest Profile</p>
@@ -45,32 +46,32 @@
     @* Search and Humburger Manu icon-only from mobile *@
     <div class="navbar-menu">
         <div>
-            <img 
-                src="/icons/search.png" 
-                class="search-icon-navbar-mobile" 
-                @onclick="searchBoxClicked" 
-            />
+            <img src="/icons/search.png"
+                 class="search-icon-navbar-mobile"
+                 @onclick="searchBoxClicked" />
         </div>
-        <div class="humberger-menu">
+        <div class="humberger-menu" id="humbergerMenu">
             <SfIcon Name="IconName.Menu" Style="font-size: 38px;" @onclick="ShowMobileMenu"></SfIcon>
         </div>
     </div>
 
     @* Nabar for mobile devices *@
-    <ul class="navbar-ul-mobile" style="display: @(showMobileMenu ? "block" : "")">
+    <ul class="navbar-ul-mobile" id="navabarMobile" style="display: @(showMobileMenu ? "block" : "")">
         <li>Home</li>
         <li>Interest</li>
         <li>Topics</li>
         <li>My Loans</li>
-        <li>
+        <li @onclick="ToggleShowOption" id="optionBoxButton">
             <div class="user">
                 <div class="e-avatar e-avatar-xsmall e-avatar-circle image avatar-navbar">
                     <img src="/images/user.jpg" style="width: 25px;  height: 25px;" />
                 </div>
                 <p style="margin: 0px;">@(AuthUser.FirstName + " " + AuthUser.LastName)</p>
-                <SfIcon Name="IconName.ChevronDownFill" @onclick="ToggleShowOption"></SfIcon>
+                <div style="margin-top: 8px;">
+                    <SfIcon Name="IconName.ChevronDownFill"></SfIcon>
+                </div>
 
-                <div class="options-box" style="display: @(showOption ? "block" : "")">
+                <div class="options-box" id="optionsBox" style="display: @(showOption ? "block" : "")">
                     <p>Loans</p>
                     <p>Reservations</p>
                     <p>Interest Profile</p>
@@ -95,7 +96,7 @@
     public bool showMobileMenu { get; set; } = false;
     public bool isLoading = true;
 
-    private string token;
+    private string token = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -103,6 +104,12 @@
         {
             isLoading = false;
             StateHasChanged();
+            token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            if (token is not null)
+            {
+                await JSRuntime.InvokeVoidAsync("OutSideClickForMobileMenu", DotNetObjectReference.Create(this));
+                await JSRuntime.InvokeVoidAsync("OutSideClickForOptionBox", DotNetObjectReference.Create(this));
+            }
         }
 
     }
@@ -120,10 +127,30 @@
         showOption = !showOption;
     }
 
+    [JSInvokable]
+    public void OutSideClickedOfOptionBox()
+    {
+        if (showOption)
+        {
+            showOption = false;
+            StateHasChanged();
+        }
+    }
+
     private void ShowMobileMenu()
     {
         showMobileMenu = !showMobileMenu;
         showOption = false;
+    }
+
+    [JSInvokable]
+    public void OutsideClickOfMobileMenu()
+    {
+        if (showMobileMenu)
+        {
+            showMobileMenu = false;
+            StateHasChanged();
+        }
     }
 
     private void searchBoxClicked()

@@ -2,7 +2,6 @@
   var carousel = document.getElementById("slider-display");
   var prevButton = document.getElementById("mightintrest-prev-button");
   var nextButton = document.getElementById("mightintrest-next-button");
-  var items = document.getElementById("carousel-items-interested");
 
   window.isDragging = false;
   let startX;

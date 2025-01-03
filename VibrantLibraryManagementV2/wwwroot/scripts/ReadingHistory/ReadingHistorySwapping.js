@@ -7,6 +7,7 @@
     window.isDragging = false;
     let startX;
     let scrollLeft;
+    let functionExecuted = false;
     carousel.addEventListener("dragstart", function (e) {
         e.preventDefault();
     });
@@ -15,21 +16,28 @@
         window.isDragging = true;
         startX = e.pageX;
         scrollLeft = carousel.scrollLeft;
+        functionExecuted = false;
     });
 
     carousel.addEventListener("mousemove", function (e) {
         if (!window.isDragging) return;
 
         let moveX = e.pageX - startX;
-        setTimeout(() => {
-            var leftToScroll = carousel.scrollWidth - carousel.scrollLeft;
-            if (leftToScroll > 300) {
-                carousel.scrollLeft = scrollLeft - moveX;
-            } else {
-                nextButton.style.display = "none";
-            }
-        }, 10);
 
+        if (moveX < 0) {
+            var leftToScroll = carousel.scrollWidth - carousel.scrollLeft;
+            if (leftToScroll > 500) {
+                if (!functionExecuted) {
+                    carousel.scrollLeft = scrollLeft + 340;
+                    functionExecuted = true;
+                }
+            }
+        } else {
+            if (!functionExecuted) {
+                carousel.scrollLeft = scrollLeft - 340;
+                functionExecuted = true;
+            }
+        }
 
         if (carousel.scrollLeft === 0) {
             prevButton.style.display = "none";
@@ -53,13 +61,28 @@
         window.isDragging = true;
         startX = e.touches[0].pageX;
         scrollLeft = carousel.scrollLeft;
+        functionExecuted = false;
     });
 
     carousel.addEventListener("touchmove", function (e) {
         if (!window.isDragging) return;
 
         let moveX = e.touches[0].pageX - startX;
-        carousel.scrollLeft = scrollLeft - moveX;
+
+        if (moveX < 0) {
+            var leftToScroll = carousel.scrollWidth - carousel.scrollLeft;
+            if (leftToScroll > 500) {
+                if (!functionExecuted) {
+                    carousel.scrollLeft = scrollLeft + 340;
+                    functionExecuted = true;
+                }
+            }
+        } else {
+            if (!functionExecuted) {
+                carousel.scrollLeft = scrollLeft - 340;
+                functionExecuted = true;
+            }
+        }
 
         if (carousel.scrollLeft === 0) {
             prevButton.style.display = "none";

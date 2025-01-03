@@ -1,6 +1,4 @@
-﻿//Drag and drop functionalities
-
-//Carousel left-right buttons functionalities
+﻿//Carousel left-right buttons functionalities
 window.moveSlide = function (direction) {
     setTimeout(() => {
         var carousel = document.getElementById("carouselContainer-interest-alerts");
