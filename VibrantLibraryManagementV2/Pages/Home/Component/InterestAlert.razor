@@ -77,7 +77,11 @@
                 isLoading = false;
                 StateHasChanged();
             }
-            await JSRuntime.InvokeVoidAsync("initializeInterestAlertsCarousel");
+
+            if (token is not null)
+            {
+                await JSRuntime.InvokeVoidAsync("initializeInterestAlertsCarousel");
+            }
         }
     }
 

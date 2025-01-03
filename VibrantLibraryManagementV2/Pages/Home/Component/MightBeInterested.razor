@@ -136,7 +136,11 @@
                 isLoading = false;
                 StateHasChanged();
             }
-            await JSRuntime.InvokeVoidAsync("MightBeInterestedSwapping");
+
+            if (token is not null)
+            {
+                await JSRuntime.InvokeVoidAsync("MightBeInterestedSwapping");
+            }
         }
     }
 

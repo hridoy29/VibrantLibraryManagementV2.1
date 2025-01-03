@@ -24,13 +24,11 @@
                 @foreach (var item in ReadingHistoryData.Response.Docs)
                 {
                     <div class="carousel-slide-reading-history ">
-                        <ReadingHistoryCarousel 
-                            ImageUrl="@item.BookCover"
-                            BookName="@item.Title"
-                            Author="@item.Author"
-                            Ratings="@item.AvgRatings"
-                            AlternativeText="Demo" 
-                        />
+                        <ReadingHistoryCarousel ImageUrl="@item.BookCover"
+                                                BookName="@item.Title"
+                                                Author="@item.Author"
+                                                Ratings="@item.AvgRatings"
+                                                AlternativeText="Demo" />
                     </div>
                 }
             }
@@ -82,7 +80,11 @@
                 isLoading = false;
                 StateHasChanged();
             }
-            await JSRuntime.InvokeVoidAsync("ReadingHistorySwapping");
+
+            if (token is not null)
+            {
+                await JSRuntime.InvokeVoidAsync("ReadingHistorySwapping");
+            }
         }
     }
 
