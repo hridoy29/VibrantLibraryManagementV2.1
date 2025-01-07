@@ -1,0 +1,86 @@
+﻿@page "/home"
+@* @rendermode InteractiveServer *@
+@inject NavigationManager _navigate
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject CustomAuthenticationStateProvider _customAuthProvider
+@using Component
+
+<PageTitle>Home</PageTitle>
+
+<div class="main-container" style="display: @(loader ? "none" : "block")">
+    <header class="header-section">
+        <Navbar OnSearchBoxClicked="ToggleSearchSection" LoadingDelay="@artificialDelay" />
+        <Search ShowSearchSection="@showingSearchSection" LoadingDelay="@artificialDelay" />
+    </header>
+
+    <section class="recomendation-section">
+        <RecommentedCarousel LoadingDelay="@artificialDelay" />
+    </section>
+
+    <section class="interest-alert-section-main">
+        <InterestAlert LoadingDelay="@artificialDelay" />
+    </section>
+
+    <section class="might-be-interesed-section" style="background: red;">
+        <MightBeInterested LoadingDelay="@artificialDelay" />
+    </section>
+
+    <section class="reading-history" style="display: @(artificialDelay ? "none" : "")">
+        <ReadingHistory />
+    </section>
+
+    <footer class="footer" style="display: @(artificialDelay ? "none" : "")">
+        <Footer />
+    </footer>
+</div>
+
+@* Loading screen of homepage itself *@
+<div style="display: @(loader ? "block" : "none"); width: 100%; height: 100vh;">
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction; column; gap: 20px; heigth: 100vh;">
+        <SfSpinner @bind-Visible="@loader"></SfSpinner>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public User AuthUser { get; set; }
+    public bool artificialDelay = true;
+    public bool artificialDelayLonger = true;
+    public bool showingSearchSection { get; set; } = false;
+    [Parameter] public EventCallback OnSearchBoxClicked { get; set; }
+    private bool loader { get; set; }    
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var authState = await _authenticationStateProvider.GetAuthenticationStateAsync();
+            if (!authState.User.Identity.IsAuthenticated)
+            {
+                _navigate.NavigateTo("/login");
+            }
+            artificialDelay = false;
+            // StateHasChanged();
+            // await Task.Delay(300);
+            loader = false;
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        loader = true;
+    }
+
+    private async Task LogOut()
+    {
+        await _customAuthProvider.LogoutAsync();
+        _navigate.NavigateTo("/login");
+    }
+
+    private void ToggleSearchSection()
+    {
+        showingSearchSection = !showingSearchSection;
+        StateHasChanged();
+    }
+}

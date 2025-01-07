@@ -1,0 +1,135 @@
+﻿@import url('/css/FontSizing.css');
+
+.reading-history-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: roboto;
+    padding: 30px 100px;
+}
+
+.reading-history-title h3 {
+    font-size: var(--desktopFont);
+}
+
+.reading-history-main-container {
+    width: 98vw;
+    position: relative;
+    padding: 3px 110px;
+    box-sizing: border-box;
+    padding-bottom: 40px;
+}
+
+.carousel-reading-history {
+    height: 200px;
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+    margin: 0px 10px;
+}
+
+.share-reading-history-card{
+    font-size:12px;
+    text-decoration:underline;
+}
+
+.carousel-slide-reading-history {
+    width: 20rem;
+    height: 190px;
+    flex-shrink: 0;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.prev-reading-history, .next-reading-history {
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 10px 90px;
+    color: gray;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.prev-reading-history {
+    left: 0px;
+}
+
+.next-reading-history {
+    right: 0px;
+}
+
+.interest-alert-book-name {
+    font-weight: bold;
+    padding: 10px 0px;
+    padding-bottom: 5px;
+    margin: 0px;
+    font-family: roboto;
+}
+
+.autor-interest-alert {
+    margin: 0px;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+
+.ratings-interest {
+    width: 100px;
+}
+
+.ratings img {
+    width: 12px;
+}
+
+.ratings-container {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 830px) {
+    .reading-history-main-container, .reading-history-title {
+        width: 97vw;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .reading-history-main-container, .reading-history-title {
+        padding: 20px;
+        width: 95vw;
+    }
+    .reading-history-title h3{
+        font-size: var(--mobileFont);
+    }
+    .prev-reading-history {
+        left: -20px !important;
+        margin: 20px;
+    }
+    .next-reading-history {
+        right: -20px;
+        margin: 20px;
+    }
+    .reading-history-main-container{
+        padding: 0px 20px 30px 20px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .prev-reading-history{
+        left: -15px !important;
+    }
+
+    .next-reading-history{
+        right: -15px;
+    }
+}

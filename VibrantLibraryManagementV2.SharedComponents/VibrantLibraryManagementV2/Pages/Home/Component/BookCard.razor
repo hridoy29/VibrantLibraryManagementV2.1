@@ -1,0 +1,56 @@
+﻿@using VibrantLibraryManagementV2.ServiceLayer.Services.ImagesService
+@inject IJSRuntime JSRuntime
+@inject IImagesServices ImagesServices
+
+<div class="bookcard">
+    @if (ImageUrlFromAPI != null)
+    {
+        <img class="book-image" src="@ImageUrlFromAPI">
+    }
+    else
+    {
+        <div class="custom-book-image-container">
+            @((BookName.Length > 100) ? BookName.Substring(0, 100) + ".." : BookName)
+        </div>
+    }
+
+    <div class="detail-container-ms">
+        <SfTooltip ID="Tooltip" Target="#btn" Content="@BookName">
+            <p ID="btn" Content="Show Tooltip" class="interest-alert-book-name-first" title="@BookName">
+                @((BookName.Length > 50) ? BookName.Substring(0, 44) + ".." : BookName)
+            </p>
+        </SfTooltip>
+        <p class="autor-interest-alert">@Author</p>
+        <div class="ratings-container">
+            <SfRating Value="@Ratings" ReadOnly></SfRating>
+            <span>&nbsp; @Ratings</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string BookName { get; set; }
+    [Parameter]
+    public string ImageUrl { get; set; }
+    [Parameter]
+    public string Author { get; set; }
+    [Parameter]
+    public double Ratings { get; set; }
+    string token = "";
+    private string ImageUrlFromAPI { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+            var result = await ImagesServices.GetImageUrl(ImageUrl, token);
+            ImageUrlFromAPI = result.FileUrl;
+        }
+        else
+        {
+            ImageUrlFromAPI = null;
+        }
+    }
+}

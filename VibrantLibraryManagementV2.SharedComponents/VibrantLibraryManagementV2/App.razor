@@ -1,0 +1,86 @@
+﻿@inject TokenService _tokenService
+@inject ISessionService _sessionService
+@inject NavigationManager _navigate
+@inject ILogOutService logoutservices
+@inject IProfileService profileService
+@inject CustomAuthenticationStateProvider _customAuthProviders
+
+<CascadingAuthenticationState>
+    <CascadingValue Value="AuthUser">
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            </Found>
+            <NotFound>
+                <PageTitle>Not found</PageTitle>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p role="alert">Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </CascadingValue>
+
+</CascadingAuthenticationState>
+
+<VibrantLibraryManagementV2.Pages.Shared.AuthComponent.AuthInitializer />
+
+@code {
+    private bool _isInitialized;
+    private User AuthUser = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_isInitialized)
+        {
+            _isInitialized = true;
+            await HandleNavigation();
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleNavigation()
+    {
+        var token = await _sessionService.Get<string>("authToken");
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var isExpired = _tokenService.IsTokenExpired(token);
+            if (isExpired)
+            {
+                await PerformLogout(token);
+            }
+            else
+            {
+                var obj = await profileService.GetUserProfile(token);
+                if (obj == null)
+                {
+                    await PerformLogout(token);
+                    return;
+                }
+                try
+                {
+                    AuthUser = obj.User.FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+                    await PerformLogout(token);
+                }
+
+            }
+        }
+        else
+        {
+            await _customAuthProviders.LogoutAsync();
+        }
+    }
+
+    private async Task PerformLogout(string token)
+    {
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            var result = await logoutservices.LogOutAsync(token);
+        }
+        await _customAuthProviders.LogoutAsync();
+        _navigate.NavigateTo("/login", forceLoad: true);
+    }
+}

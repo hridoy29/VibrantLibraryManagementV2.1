@@ -1,0 +1,100 @@
+﻿@inject IJSRuntime JSRuntime
+@inject IReadingHistory ReadingHistoryServices
+
+<div class="reading-history-title">
+    <h3>Reading History</h3>
+    <p style="margin: 0px; cursor: pointer;">View all</p>
+</div>
+
+<div class="reading-history-main-container">
+    <div class="carousel-reading-history" id="readingHistoryCarouselContainer">
+        @if (isLoading)
+        {
+            <div>
+                <div id="container">
+                    <SfSpinner @bind-Visible="@isLoading">
+                    </SfSpinner>
+                </div>
+            </div>
+        }
+        else
+        {
+            @if (ReadingHistoryData?.Response?.Docs != null)
+            {
+                @foreach (var item in ReadingHistoryData.Response.Docs)
+                {
+                    <div class="carousel-slide-reading-history ">
+                        <ReadingHistoryCarousel ImageUrl="@item.BookCover"
+                                                BookName="@item.Title"
+                                                Author="@item.Author"
+                                                Ratings="@item.AvgRatings"
+                                                AlternativeText="Demo" />
+                    </div>
+                }
+            }
+        }
+    </div>
+
+    <button class="prev-reading-history" id="reading-history-left-button" style="display: none;" @onclick="MovePrev">❮</button>
+    <button class="next-reading-history" id="next-reading-history" @onclick="MoveNext">❯</button>
+</div>
+
+
+@code {
+    private SearchResponse ReadingHistoryData = new SearchResponse();
+    private bool isLoading = true;
+    private string errorMessage { get; set; } = string.Empty;
+    private bool isInitialized = false;
+    private string token { get; set; } = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !isInitialized)
+        {
+            isInitialized = true;
+            try
+            {
+                token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    errorMessage = "Authentication token not found.";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    throw new UnauthorizedAccessException("JWT token not found.");
+                }
+
+                var response = await ReadingHistoryServices.GetReadingHistory(token);
+
+                ReadingHistoryData = response;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            finally
+            {
+                isLoading = false;
+                StateHasChanged();
+            }
+
+            if (token is not null)
+            {
+                await JSRuntime.InvokeVoidAsync("ReadingHistorySwapping");
+            }
+        }
+    }
+
+    private async Task MoveNext()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlideleftright", 1);
+    }
+
+    private async Task MovePrev()
+    {
+        await JSRuntime.InvokeVoidAsync("moveSlideleftright", -1);
+    }
+}

@@ -1,0 +1,52 @@
+﻿@inject NavigationManager _navigate
+@inject IConfiguration _configuration
+
+<head>
+    <link rel="stylesheet" href="css/ChooseLanguage.css"/>
+</head>
+
+@{
+    if (cultures != null)
+    {
+        <form class="form-control" style="border: none; font-size: 16px;">
+            <select class="form-control-select"
+                    @onchange="OnCultureChanged" >
+                @foreach (var item in cultures)
+                {
+                    <option selected="@(item.Key==selectedCulture)" value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </form>
+    }
+}
+
+@code {
+    private string selectedCulture = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+    private Dictionary<string, string> cultures;
+
+    protected override async Task OnInitializedAsync()
+    {
+        cultures = _configuration.GetSection("Cultures")
+                        .GetChildren().ToDictionary(x => x.Key, x => x.Value);
+    }
+
+    private void RequestCultureChange()
+    {
+        if (string.IsNullOrWhiteSpace(selectedCulture))
+        {
+            return;
+        }
+        var uri = new Uri(_navigate.Uri)
+                .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+        var query = $"?culture={Uri.EscapeDataString(selectedCulture)}&" +
+            $"redirectUri={Uri.EscapeDataString(uri)}";
+
+        _navigate.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+    }
+
+    private void OnCultureChanged(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        selectedCulture = e.Value.ToString();
+        RequestCultureChange();
+    }
+}

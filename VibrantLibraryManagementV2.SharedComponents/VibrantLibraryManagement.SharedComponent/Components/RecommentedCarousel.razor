@@ -1,0 +1,91 @@
+﻿@inject IJSRuntime JSRuntime
+@inject IRecommendedService RecommendedService
+@inject IImagesServices ImagesServices
+@inject ILogOutService _logOutService
+<head>
+    <link rel="stylesheet" href="/css/Carousel.css" />
+</head>
+
+<div class="control-container" style="display: @(LoadingDelay ? "none" : "")">
+    <SfCarousel AutoPlay="false"
+                ShowIndicators="false"
+                EnableTouchSwipe="true"
+                SwipeMode="CarouselSwipeMode.Touch">
+        @if (isLoading)
+        {
+            <CarouselItem>
+                <div>
+                    <div id="container">
+                        <SfSpinner @bind-Visible="@VisibleProperty">
+                        </SfSpinner>
+                    </div>
+                </div>
+            </CarouselItem>
+        }
+        else
+        {
+            if (recommends.Response is not null)
+            {
+                @foreach (var doc in recommends.Response.Docs)
+                {
+                    <CustomCarouselItem BackgroundImage="@backgroundImage"
+                                        Title="@doc.Title"
+                                        Author="@doc.Author"
+                                        Summery="@doc.Synopsis[0]"
+                                        BookCover="@doc.BookCover" 
+                                        Interval="3000"/>
+                }
+            }
+        }
+    </SfCarousel>
+
+    
+</div>
+
+@code {
+    private SearchResponse recommends = new SearchResponse();
+    private bool isLoading = true;
+    private string errorMessage = string.Empty;
+    public string ImageUrlFromAPI { get; set; } = string.Empty;
+    private bool VisibleProperty { get; set; } = true;
+    [Parameter]
+    public bool LoadingDelay { get; set; }
+    int CurrentIndex = 0;
+
+    public string backgroundImage { get; set; } = "images/harry-potter-free.jpg";
+    public string backgroundImage1 { get; set; } = "images/harry-potter-book-cover.jpg";
+
+    private bool isInitialized = false;
+    private string token = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !isInitialized)
+        {
+            isInitialized = true;
+            try
+            {
+                token = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    throw new UnauthorizedAccessException("JWT token not found.");
+                }
+
+                var response = await RecommendedService.FetchEditorsPicksAsync(token);
+                recommends = response;
+                await InvokeAsync(StateHasChanged);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            finally
+            {
+                isLoading = false;
+                StateHasChanged();
+            }
+        }
+
+        StateHasChanged();
+    }
+}
